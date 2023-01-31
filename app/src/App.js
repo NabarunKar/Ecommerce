@@ -1,23 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import Home from "./pages/Home";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const [dummyData, setDummyData] = useState([{}]);
-  useEffect(() => {
-    fetch("/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setDummyData(data);
-      });
-  });
   return (
     <div>
-      {typeof dummyData.products === "undefined" ? (
-        <p>Loading...</p>
-      ) : (
-        dummyData.products.map((p, id) => {
-          return <li key={id}>{p}</li>;
-        })
-      )}
+      <Home/>
     </div>
   );
 }
