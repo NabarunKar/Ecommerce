@@ -1,11 +1,19 @@
 const express = require("express");
+const http = require("http");
 const app = express();
-const port = 5000;
+const cors = require("cors");
+
+const server = http.createServer(app);
 
 app.get("/products", (req, res) => {
   res.json({ products: ["p1", "p2", "p3", "p4"] });
 });
 
-app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
+app.listen(5000, () => {
+  console.table(
+    {
+      port:5000,
+      date:Date()
+    }
+  );
 });
