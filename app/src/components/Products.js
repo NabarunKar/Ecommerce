@@ -1,15 +1,15 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 
 function Products() {
-    useEffect(() => {
-        effect
-        return () => {
-            cleanup
-        };
-    }, []);
-  return (
-    <div>Products</div>
-  )
+  const [products, setProducts] = useState([{}]);
+  useEffect(() => {
+    fetch("/products")
+      .then((res) => res.json())
+      .then((data) => {
+        setProducts(data);
+      });
+  }, []);
+  return <div>{JSON.stringify(products)}</div>;
 }
 
-export default Products
+export default Products;
