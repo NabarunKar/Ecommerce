@@ -11,12 +11,13 @@ function Products() {
   }, [products]);
   return (
     <div>
-      <h1>Total:{products.length}</h1>
+      <h1>Total: {products.length}</h1>
       <ul>
         {products.map((p, id) => (
           <li key={id}>
-            <img src={p.images[0]} alt="" />
             <h2>{p.title}</h2>
+            <h3>Price: ${p.price}</h3>
+            <img src={p.thumbnail} alt="" />
             <p>{p.description}</p>
           </li>
         ))}
