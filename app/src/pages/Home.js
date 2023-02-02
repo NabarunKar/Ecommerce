@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Products from "../components/Products";
-import Slider from "../components/Slider";
+import Filter from "../components/Filter";
+import UseFetch from "../hooks/useFetch";
 
 function Home() {
-  const [products, setProducts] = useState([{}]);
-  useEffect(() => {
-    fetch("/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-      });
-  }, [products]);
+  const [products, isPending, error] = UseFetch("/products");
   return (
     <div>
-      <Slider />
-      <Products products={products} />
+      <Filter />
+      {error && <div>{error}</div>}
+      {isPending && <div>Loading...</div>}
+      {products && <Products products={products} />}
     </div>
   );
 }
