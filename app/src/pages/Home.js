@@ -1,16 +1,22 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
-import Products from '../components/Products'
-import Slider from '../components/Slider'
+import React, { useState, useEffect } from "react";
+import Products from "../components/Products";
+import Slider from "../components/Slider";
 
 function Home() {
+  const [products, setProducts] = useState([{}]);
+  useEffect(() => {
+    fetch("/products")
+      .then((res) => res.json())
+      .then((data) => {
+        setProducts(data);
+      });
+  }, [products]);
   return (
     <div>
-        <Navbar/>
-        <Slider/>
-        <Products/>
+      <Slider />
+      <Products products={products} />
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
