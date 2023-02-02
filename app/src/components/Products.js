@@ -8,8 +8,21 @@ function Products() {
       .then((data) => {
         setProducts(data);
       });
-  }, []);
-  return <div>{JSON.stringify(products)}</div>;
+  }, [products]);
+  return (
+    <div>
+      <h1>Total:{products.length}</h1>
+      <ul>
+        {products.map((p, id) => (
+          <li key={id}>
+            <img src={p.images[0]} alt="" />
+            <h2>{p.title}</h2>
+            <p>{p.description}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 export default Products;
