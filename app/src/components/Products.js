@@ -13,7 +13,7 @@ function Products(props) {
             <h2>{p.title}</h2>
             </Link>
             <h3>Price: ${p.price}</h3>
-            <img src={p.thumbnail} alt="Image not found" />
+            <img src={p.thumbnail} alt="" />
           </li>
         ))}
       </ul>

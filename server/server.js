@@ -10,8 +10,12 @@ const products = require("./data/products.json");
 const server = http.createServer(app);
 const port = process.env.PORT || 5000;
 
-app.get("/products",  (req, res) => {
+app.get("/products", (req, res) => {
   res.json(products);
+});
+
+app.get("/products/:id", (req, res) => {
+  res.json(products.find((e) => e.id == req.params.id));
 });
 
 app.listen(port, () => {

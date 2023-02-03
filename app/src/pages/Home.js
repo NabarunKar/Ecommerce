@@ -4,13 +4,13 @@ import Filter from "../components/Filter";
 import UseFetch from "../hooks/useFetch";
 
 function Home() {
-  const [products, isPending, error] = UseFetch("/products");
+  const [data, isPending, error] = UseFetch("/products");
   return (
     <div>
       <Filter />
       {error && <div>{error}</div>}
       {isPending && <div>Loading...</div>}
-      {products && <Products products={products} />}
+      {data && <Products products={data} />}
     </div>
   );
 }

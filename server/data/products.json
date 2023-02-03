@@ -538,7 +538,7 @@
     "price": 30,
     "discountPercentage": 2.92,
     "rating": 4.92,
-    "stock": 54,
+    "stock": 0,
     "brand": "Golden",
     "category": "home-decoration",
     "thumbnail": "https://i.dummyjson.com/data/products/30/thumbnail.jpg",
