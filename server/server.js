@@ -1,23 +1,38 @@
 const express = require("express");
-const http = require("http");
+const mongoose = require("mongoose");
 const app = express();
-const cors = require("cors");
-const fs = require("fs");
-require("dotenv").config();
 
-const products = require("./data/products.json");
-
-const server = http.createServer(app);
-const port = process.env.PORT || 5000;
-
-app.get("/products", (req, res) => {
-  res.json(products);
+// Set up database connection Ggg2HTOeE4qMdxco
+const uri =
+  "mongodb+srv://soumya34:Ggg2HTOeE4qMdxco@cluster0.eiums9t.mongodb.net/?retryWrites=true&w=majority";
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function () {
+  console.log("Connected to MongoDB Atlas");
 });
 
-app.get("/products/:id", (req, res) => {
-  res.json(products.find((e) => e.id == req.params.id));
-});
+// Import routes
+const usersRoutes = require('./routes/users');
 
+// Set up middleware
+app.use(express.json());
+
+// Set up routes
+app.use("/users", usersRoutes);
+
+// Start server
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.info(`Server started on port ${port}`);
+  console.log(`Server listening on port ${port}`);
 });
+
+// const products = require("./data/products.json");
+
+// app.get("/products", (req, res) => {
+//   res.json(products);
+// });
+
+// app.get("/products/:id", (req, res) => {
+//   res.json(products.find((e) => e.id == req.params.id));
+// });
