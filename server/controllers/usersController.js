@@ -56,7 +56,7 @@ async function updateUser(req, res) {
 // Delete a user
 async function deleteUser(req, res) {
   try {
-    await res.user.remove();
+    await res.user.deleteOne();
     res.json({ message: "User deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });
