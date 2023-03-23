@@ -17,11 +17,7 @@ async function getUser(req, res) {
 
 // Create a new user
 async function createUser(req, res) {
-  const user = new User({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-  });
+  const user = new User(req.body);
 
   try {
     const newUser = await user.save();
@@ -38,7 +34,6 @@ async function updateUser(req, res) {
       res.user[prop] = req.body[prop];
     }
   }
-
 
   try {
     const updatedUser = await res.user.save();
@@ -63,7 +58,7 @@ async function getUserById(req, res, next) {
   let user;
   try {
     user = await User.findById(req.params.id);
-    if (user == null) {
+    if (!user) {
       return res.status(404).json({ message: "Cannot find user" });
     }
   } catch (err) {

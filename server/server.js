@@ -13,13 +13,15 @@ db.once("open", function () {
 });
 
 // Import routes
-const usersRoutes = require('./routes/users');
+const usersRoutes = require("./routes/users");
+const productsRoutes = require("./routes/products");
 
 // Set up middleware
 app.use(express.json());
 
 // Set up routes
 app.use("/users", usersRoutes);
+app.use("/products", productsRoutes);
 
 // Start server
 const port = process.env.PORT || 3000;
