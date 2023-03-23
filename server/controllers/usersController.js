@@ -33,17 +33,12 @@ async function createUser(req, res) {
 
 // Update a user
 async function updateUser(req, res) {
-  if (req.body.name != null) {
-    res.user.name = req.body.name;
+  for (const prop in req.body) {
+    if (req.body[prop]) {
+      res.user[prop] = req.body[prop];
+    }
   }
 
-  if (req.body.email != null) {
-    res.user.email = req.body.email;
-  }
-
-  if (req.body.password != null) {
-    res.user.password = req.body.password;
-  }
 
   try {
     const updatedUser = await res.user.save();
