@@ -15,5 +15,8 @@
     "ethers": "^6.2.2",
     "koa": "^2.14.1",
     "mongoose": "^7.0.3"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3"
   }
 }
