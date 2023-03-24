@@ -2,6 +2,8 @@ const Koa = require('koa');
 const Router = require('@koa/router');
 const cors = require('@koa/cors'); // for making api calls to other websites
 const ethers = require('ethers');
+//troubleshooting
+//const mongoose = require('mongoose');
 const PaymentProcessor = require('../frontend/src/contracts/PaymentProcessor.json');
 const { Payment } = require('./db.js');
 
@@ -14,6 +16,14 @@ const items = {
   '2': {id: 2, url: 'http://UrlToDownloadItem2'}
 };
 
+//troubleshooting
+//mongoose.connect(
+//  process.env.CONNECTION_STRING,
+//  (err) => {
+//   if(err) console.log(err) 
+//   else console.log("mongdb is connected");
+//  }
+//);
 
 //generate a paymentId for purchage
 // router.get('/api/getPaymentId/:itemId', async (ctx, next) => {
