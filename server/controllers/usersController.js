@@ -76,7 +76,19 @@ async function getUserById(req, res, next) {
 
 // Login user
 async function loginUser(req, res) {
-  res.json({ message: "login user" });
+  try {
+    const user = await User.login({
+      email: req.body.email,
+      password: req.body.password,
+    });
+
+    // Create the token
+    const token = createToken(user._id);
+
+    res.status(200).json({ user, token });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 }
 
 // Signup user
