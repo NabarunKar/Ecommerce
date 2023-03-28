@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+require('dotenv').config();
 const app = express();
 
 // Set up database connection Ggg2HTOeE4qMdxco
