@@ -15,6 +15,12 @@ function Navbar() {
         <li>
           <Link to="/contact">Contact Us</Link>
         </li>
+        <li>
+          <Link to="/login">Log In</Link>
+        </li>
+        <li>
+          <Link to="/create">Sign Up</Link>
+        </li>
       </ul>
     </div>
   );

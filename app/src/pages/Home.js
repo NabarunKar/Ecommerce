@@ -4,7 +4,7 @@ import Filter from "../components/Filter";
 import UseFetch from "../hooks/useFetch";
 
 function Home() {
-  const [data, isPending, error] = UseFetch("/products");
+  const [data, isPending, error] = UseFetch("/api/products");
   return (
     <div>
       <Filter />
