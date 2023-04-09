@@ -27,15 +27,17 @@ userSchema.statics.signup = async function (user) {
     throw Error("Invalid email format");
   }
 
+  // check if email already exists or not
+  const exists = await this.findOne({ email: user.email });
+  if (exists) {
+    throw Error("Email already in use");
+  }
+
   // password needs atleast one uppercase, lowercase, special char & number
   if (!validator.isStrongPassword(user.password)) {
     throw Error("Strong password is required");
   }
 
-  const exists = await this.findOne({ email: user.email });
-  if (exists) {
-    throw Error("Email already in use");
-  }
   // Generate salt
   const salt = await bcrypt.genSalt(10);
   // Generate hash
