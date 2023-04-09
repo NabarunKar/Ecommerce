@@ -1,7 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
-require('dotenv').config();
+// const cors = require("cors");
+require("dotenv").config();
+
 const app = express();
+
+// Enable CORS
+// app.use(
+//   cors({
+//     origin: true,
+//   })
+// );
 
 // Set up database connection Ggg2HTOeE4qMdxco
 const uri =
@@ -21,11 +30,11 @@ const productsRoutes = require("./routes/products");
 app.use(express.json());
 
 // Set up routes
-app.use("/users", usersRoutes);
-app.use("/products", productsRoutes);
+app.use("/api/users", usersRoutes);
+app.use("/api/products", productsRoutes);
 
 // Start server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });

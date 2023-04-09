@@ -21,16 +21,16 @@ async function getUser(req, res) {
 }
 
 // Create a new user
-async function createUser(req, res) {
-  const user = new User(req.body);
+// async function createUser(req, res) {
+//   const user = new User(req.body);
 
-  try {
-    const newUser = await user.save();
-    res.status(201).json(newUser);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-}
+//   try {
+//     const newUser = await user.save();
+//     res.status(201).json(newUser);
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// }
 
 // Update a user
 async function updateUser(req, res) {
@@ -108,7 +108,7 @@ async function signupUser(req, res) {
 module.exports = {
   getAllUsers,
   getUser,
-  createUser,
+
   updateUser,
   deleteUser,
   getUserById,
