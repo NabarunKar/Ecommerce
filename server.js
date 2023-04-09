@@ -12,10 +12,12 @@ const app = express();
 //   })
 // );
 
-// Set up database connection Ggg2HTOeE4qMdxco
-const uri =
-  "mongodb+srv://soumya34:Ggg2HTOeE4qMdxco@cluster0.eiums9t.mongodb.net/?retryWrites=true&w=majority";
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+// Set up database connection
+// Secret Key: Ggg2HTOeE4qMdxco
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
