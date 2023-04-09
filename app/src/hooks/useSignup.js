@@ -23,8 +23,8 @@ export const useSignup = () => {
 
     if (!response.ok) {
       setIsPending(false);
-      setError(json.error);
-      console.log(error);
+      setError(json.message);
+      console.log(json.message);
     }
     if (response.ok) {
       // save the user into localstorage
