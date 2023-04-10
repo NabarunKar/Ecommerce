@@ -85,7 +85,9 @@ async function loginUser(req, res) {
     // Create the token
     const token = createToken(user._id);
 
-    res.status(200).json({ user, token });
+    const email = user.email;
+
+    res.status(200).json({ email, token });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -99,7 +101,9 @@ async function signupUser(req, res) {
     // Create the token
     const token = createToken(user._id);
 
-    res.status(200).json({ user, token });
+    const email = user.email;
+
+    res.status(200).json({ email, token });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
