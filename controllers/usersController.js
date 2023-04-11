@@ -8,7 +8,8 @@ const createToken = (_id) => {
 // Get all users
 async function getAllUsers(req, res) {
   try {
-    const users = await User.find({});
+    // ignore the password
+    const users = await User.find({}, { password: 0 });
     res.json(users);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -62,7 +63,8 @@ async function deleteUser(req, res) {
 async function getUserById(req, res, next) {
   let user;
   try {
-    user = await User.findById(req.params.id);
+    // ignore the password
+    user = await User.findById(req.params.id, { password: 0 });
     if (!user) {
       return res.status(404).json({ message: "Cannot find user" });
     }
