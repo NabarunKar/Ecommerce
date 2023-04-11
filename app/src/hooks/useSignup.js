@@ -40,20 +40,3 @@ export const useSignup = () => {
   return { signup, isPending, error };
 };
 
-
-// .then((res) => {
-    //   if (!res.ok) {
-    //     throw Error(res.error);
-    //   }
-    //   return res.json();
-    // })
-    // .then((data) => {
-    //   localStorage.setItem("user", JSON.stringify(data));
-    //   dispatch({ type: "LOGIN", payload: data });
-    //   setIsPending(false);
-    //   setError(null);
-    // })
-    // .catch((err) => {
-    //   setIsPending(false);
-    //   setError(err.message);
-    // });

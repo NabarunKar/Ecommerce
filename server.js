@@ -1,16 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
-// const cors = require("cors");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
 
 // Enable CORS
-// app.use(
-//   cors({
-//     origin: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: true,
+  })
+);
 
 // Set up database connection
 // Secret Key: Ggg2HTOeE4qMdxco
@@ -41,12 +41,4 @@ app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
-// const products = require("./data/products.json");
 
-// app.get("/products", (req, res) => {
-//   res.json(products);
-// });
-
-// app.get("/products/:id", (req, res) => {
-//   res.json(products.find((e) => e.id == req.params.id));
-// });

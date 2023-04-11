@@ -114,7 +114,6 @@ async function signupUser(req, res) {
 module.exports = {
   getAllUsers,
   getUser,
-
   updateUser,
   deleteUser,
   getUserById,
