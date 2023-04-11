@@ -31,6 +31,9 @@ function Navbar() {
               <ul>
                 <li>{user.email}</li>
                 <li>
+                  <Link to={`/profile/${user._id}`}>Profile</Link>
+                </li>
+                <li>
                   <button onClick={handleClick}>Log out</button>
                 </li>
               </ul>

@@ -7,8 +7,11 @@ import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
+import { useAuthContext } from "./hooks/useAuthContext";
 
 function App() {
+  const { user } = useAuthContext();
   return (
     <Router>
       <div>
@@ -31,6 +34,9 @@ function App() {
           </Route>
           <Route exact path="/create">
             <SignUp />
+          </Route>
+          <Route exact path="/profile/:id">
+            {user && <Profile />}
           </Route>
         </Switch>
       </div>
