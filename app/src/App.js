@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import { useAuthContext } from "./hooks/useAuthContext";
+import Cart from "./components/Cart";
 
 function App() {
   const { user } = useAuthContext();
@@ -37,6 +38,9 @@ function App() {
           </Route>
           <Route exact path="/profile/:id">
             {user && <Profile />}
+          </Route>
+          <Route exact path="/cart">
+            <Cart />
           </Route>
         </Switch>
       </div>

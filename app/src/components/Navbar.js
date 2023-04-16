@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
+// import { useCartContext } from "../contexts/CartContext";
 
 function Navbar() {
   const { logout } = useLogout();
@@ -24,6 +25,9 @@ function Navbar() {
         </li>
         <li>
           <Link to="/contact">Contact Us</Link>
+        </li>
+        <li>
+          <Link to="/cart">Cart</Link>
         </li>
         <li>
           {user && (
