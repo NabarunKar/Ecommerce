@@ -2,12 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useCartContext } from "../contexts/CartContext";
 // import { useCartContext } from "../contexts/CartContext";
 
 function Navbar() {
   const { logout } = useLogout();
 
   const { user } = useAuthContext();
+
+  const { total_item } = useCartContext();
 
   const handleClick = () => {
     logout();
@@ -27,7 +30,7 @@ function Navbar() {
           <Link to="/contact">Contact Us</Link>
         </li>
         <li>
-          <Link to="/cart">Cart</Link>
+          <Link to="/cart">Cart {total_item > 0 && <>({total_item})</>}</Link>
         </li>
         <li>
           {user && (
