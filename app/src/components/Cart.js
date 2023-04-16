@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { useCartContext } from "../contexts/CartContext";
 
 function Cart() {
-  const { cart, removeFromCart, clearCart } = useCartContext();
+  const { cart, removeFromCart, clearCart, total_item, total_amount } =
+    useCartContext();
 
   return (
     cart.length > 0 && (
       <div>
+        <h1>Total {total_item} items in cart</h1>
         <button
           onClick={() => {
             clearCart();
@@ -22,7 +24,7 @@ function Cart() {
               <th>Price</th>
               <th>Quantity</th>
               <th>Total</th>
-              <th>Action</th>
+              <th colSpan={2}>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -48,11 +50,17 @@ function Cart() {
                     Remove
                   </button>
                 </td>
-                <td></td>
+                <td>
+                  <button>Buy</button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+        <hr />
+        <h1>
+          Total amount : {total_amount} <button>Buy all</button>
+        </h1>
       </div>
     )
   );

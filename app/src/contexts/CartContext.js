@@ -4,8 +4,8 @@ const CartContext = createContext();
 
 const initialState = {
   cart: [],
-  total_item: "",
-  total_amount: "",
+  total_item: 0,
+  total_amount: 0,
 };
 
 const cartReducer = (state, action) => {
@@ -16,17 +16,21 @@ const cartReducer = (state, action) => {
       return {
         ...state,
         cart: [...state.cart, { ...data, quantity }],
+        total_item: state.total_item + quantity,
+        total_amount: state.total_amount + data.price * quantity,
       };
     case "REMOVE":
+      let new_total_item = state.total_item - action.payload.quantity;
+      let new_total_amount =
+        state.total_amount - action.payload.price * action.payload.quantity;
       return {
         ...state,
         cart: state.cart.filter((p) => p._id !== action.payload._id),
+        total_item: new_total_item < 0 ? 0 : new_total_item,
+        total_amount: new_total_amount < 0 ? 0 : new_total_amount,
       };
     case "CLEAR_ALL":
-      return {
-        ...state,
-        cart: [],
-      };
+      return initialState;
     default:
       return state;
   }
@@ -46,8 +50,6 @@ const CartProvider = ({ children }) => {
   const clearCart = () => {
     dispatch({ type: "CLEAR_ALL" });
   };
-
-
 
   return (
     <CartContext.Provider
