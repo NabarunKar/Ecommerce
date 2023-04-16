@@ -47,6 +47,8 @@ const CartProvider = ({ children }) => {
     dispatch({ type: "CLEAR_ALL" });
   };
 
+
+
   return (
     <CartContext.Provider
       value={{ ...state, addToCart, removeFromCart, clearCart }}
