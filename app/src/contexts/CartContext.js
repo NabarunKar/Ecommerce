@@ -20,15 +20,47 @@ const cartReducer = (state, action) => {
         total_amount: state.total_amount + data.price * quantity,
       };
     case "REMOVE":
-      let new_total_item = state.total_item - action.payload.quantity;
-      let new_total_amount =
-        state.total_amount - action.payload.price * action.payload.quantity;
-      return {
-        ...state,
-        cart: state.cart.filter((p) => p._id !== action.payload._id),
-        total_item: new_total_item < 0 ? 0 : new_total_item,
-        total_amount: new_total_amount < 0 ? 0 : new_total_amount,
-      };
+      let remItem = state.cart.find((p) => p._id === action.payload.id);
+      if (remItem) {
+        let new_total_item = state.total_item - remItem.quantity;
+        let new_total_amount =
+          state.total_amount - remItem.price * remItem.quantity;
+        return {
+          ...state,
+          cart: state.cart.filter((p) => p._id !== action.payload.id),
+          total_item: new_total_item < 0 ? 0 : new_total_item,
+          total_amount: new_total_amount < 0 ? 0 : new_total_amount,
+        };
+      }
+      return state;
+    case "INC":
+      let incItem = state.cart.find((p) => p._id === action.payload.id);
+      if (incItem) {
+        return {
+          ...state,
+          cart: state.cart.map((p) => {
+            if (p._id === action.payload.id) p.quantity += 1;
+            return p;
+          }),
+          total_item: state.total_item + 1,
+          total_amount: state.total_amount + incItem.price,
+        };
+      }
+      return state;
+    case "DEC":
+      let decItem = state.cart.find((p) => p._id === action.payload.id);
+      if (decItem) {
+        return {
+          ...state,
+          cart: state.cart.map((p) => {
+            if (p._id === action.payload.id) p.quantity -= 1;
+            return p;
+          }),
+          total_item: state.total_item - 1,
+          total_amount: state.total_amount - decItem.price,
+        };
+      }
+      return state;
     case "CLEAR_ALL":
       return initialState;
     default:
@@ -43,17 +75,32 @@ const CartProvider = ({ children }) => {
     dispatch({ type: "ADD_TO_CART", payload: { quantity, data } });
   };
 
-  const removeFromCart = (data) => {
-    dispatch({ type: "REMOVE", payload: data });
+  const removeFromCart = (id) => {
+    dispatch({ type: "REMOVE", payload: { id } });
   };
 
   const clearCart = () => {
     dispatch({ type: "CLEAR_ALL" });
   };
 
+  const incrementQuantity = (id) => {
+    dispatch({ type: "INC", payload: { id } });
+  };
+
+  const decrementQuantity = (id) => {
+    dispatch({ type: "DEC", payload: { id } });
+  };
+
   return (
     <CartContext.Provider
-      value={{ ...state, addToCart, removeFromCart, clearCart }}
+      value={{
+        ...state,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        incrementQuantity,
+        decrementQuantity,
+      }}
     >
       {children}
     </CartContext.Provider>

@@ -2,8 +2,15 @@ import React, { useEffect } from "react";
 import { useCartContext } from "../contexts/CartContext";
 
 function Cart() {
-  const { cart, removeFromCart, clearCart, total_item, total_amount } =
-    useCartContext();
+  const {
+    cart,
+    removeFromCart,
+    clearCart,
+    total_item,
+    total_amount,
+    incrementQuantity,
+    decrementQuantity,
+  } = useCartContext();
 
   return (
     cart.length > 0 && (
@@ -36,15 +43,29 @@ function Cart() {
                 <td>{p.title}</td>
                 <td>{p.price}</td>
                 <td>
-                  <button>-</button>
+                  <button
+                    disabled={p.quantity == 1}
+                    onClick={() => {
+                      decrementQuantity(p._id);
+                    }}
+                  >
+                    -
+                  </button>
                   {p.quantity}
-                  <button>+</button>
+                  <button
+                    disabled={p.quantity == p.stock}
+                    onClick={() => {
+                      incrementQuantity(p._id);
+                    }}
+                  >
+                    +
+                  </button>
                 </td>
                 <td>{p.quantity * p.price}</td>
                 <td>
                   <button
                     onClick={() => {
-                      removeFromCart(p);
+                      removeFromCart(p._id);
                     }}
                   >
                     Remove

@@ -61,7 +61,7 @@ function ProductDetails() {
           {checkItemIfExistsInCart(data._id) && (
             <button
               onClick={() => {
-                removeFromCart(data);
+                removeFromCart(data._id);
               }}
             >
               Remove from cart
