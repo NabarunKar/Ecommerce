@@ -2,6 +2,12 @@ const express = require("express");
 const productsController = require("../controllers/productsController");
 const router = express.Router();
 
+// Import review routes
+const reviewsRoutes = require("./reviews");
+
+// Set up review routes
+router.use("/reviews", reviewsRoutes);
+
 // GET all products
 router.get("/", productsController.getAllProducts);
 
