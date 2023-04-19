@@ -91,6 +91,36 @@ async function getReviews(req, res) {
   }
 }
 
+// Update a particular review
+async function updateReview(req, res) {
+  try {
+    const updatedReview = await Review.updateOne(
+      { _id: req.body._id },
+      {
+        $set: {
+          rating: req.body.rating,
+          content: req.body.content,
+        },
+      }
+    );
+
+    res.status(200).json(updatedReview);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+}
+
+// Delete a particular review
+async function deleteReview(req, res) {
+  try {
+    const deletedReview = await Review.deleteOne({ _id: req.params.id });
+    res.status(200).json(deletedReview);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
 // Middleware function to get a product by ID
 async function getProductById(req, res, next) {
   let product;
@@ -115,4 +145,6 @@ module.exports = {
   getProductById,
   addReview,
   getReviews,
+  updateReview,
+  deleteReview,
 };
