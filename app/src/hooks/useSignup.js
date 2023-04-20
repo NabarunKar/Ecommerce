@@ -6,7 +6,7 @@ export const useSignup = () => {
   const [error, setError] = useState(null);
   const { dispatch } = useAuthContext();
 
-  const signup = async (email, password) => {
+  const signup = async (user) => {
     setIsPending(true);
     setError(null);
 
@@ -15,7 +15,7 @@ export const useSignup = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify(user),
     });
     
 
