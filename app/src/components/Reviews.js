@@ -2,20 +2,27 @@ import React, { useState } from "react";
 import UseFetch from "../hooks/useFetch";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Link } from "react-router-dom";
+import { usePost } from "../hooks/usePost";
 
 function Reviews(props) {
   const [data, isPending, error] = UseFetch(
     `/api/products/reviews/${props.id}`
   );
 
-  const [review, setReview] = useState({
+  const initialReviewState = {
     productId: props.id,
-    rating: 2.5,
+    rating: 0,
     content: "",
     userId: "",
-  });
+  };
+
+  const [review, setReview] = useState(initialReviewState);
 
   const { user } = useAuthContext();
+
+  const [postReview, isPostPending, postError] = usePost(
+    "/api/products/reviews/"
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,18 +30,13 @@ function Reviews(props) {
     if (user) {
       review.userId = user._id;
     }
-    await fetch("/api/products/reviews/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(review),
-    });
+    await postReview(review);
+    setReview(initialReviewState);
   };
 
   return (
     <div>
-      {user && (
+      {user && !isPostPending && (
         <div>
           <h2>Write a review</h2>
           <form onSubmit={handleSubmit}>
@@ -63,9 +65,11 @@ function Reviews(props) {
               }
             ></textarea>
             <button>Submit</button>
+            {postError && <div>{postError}</div>}
           </form>
         </div>
       )}
+      {isPostPending && <div>Submitting your review...</div>}
       {error && <div>{error}</div>}
       {isPending && <div>Loading...</div>}
       {data && (
