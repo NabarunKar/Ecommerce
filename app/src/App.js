@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import ProductDetails from "./components/ProductDetails";
+import Product from "./components/Product";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import Login from "./pages/Login";
@@ -22,7 +22,7 @@ function App() {
             <Home />
           </Route>
           <Route exact path="/items/:id">
-            <ProductDetails />
+            <Product />
           </Route>
           <Route exact path="/about">
             <AboutUs />

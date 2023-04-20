@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import UseFetch from "../hooks/useFetch";
 import { useCartContext } from "../contexts/CartContext";
 
-function ProductDetails() {
+function Product() {
   const { id } = useParams();
   const [data, isPending, error] = UseFetch(`/api/products/${id}`);
 
@@ -84,4 +84,4 @@ function ProductDetails() {
   );
 }
 
-export default ProductDetails;
+export default Product;
