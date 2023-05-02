@@ -121,6 +121,22 @@ async function deleteReview(req, res) {
   }
 }
 
+// Get review by review id
+async function getReviewById(req, res) {
+  let review;
+  try {
+    review = await Review.findById(req.params.id);
+    if (!review) {
+      return res
+        .status(404)
+        .json({ message: `Cannot find review with id ${req.params.id}` });
+    }
+    res.json(review);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+}
+
 // Middleware function to get a product by ID
 async function getProductById(req, res, next) {
   let product;
@@ -147,4 +163,5 @@ module.exports = {
   getReviews,
   updateReview,
   deleteReview,
+  getReviewById,
 };

@@ -57,14 +57,14 @@ userSchema.statics.login = async function (obj) {
     throw Error("Incomplete fields");
   }
   const user = await this.findOne({ email: obj.email });
-  if (!user) {
-    throw Error("Incorrect email");
-  }
+  // if (!user) {
+  //   throw Error("Incorrect email");
+  // }
 
   // Validate password
   const match = await bcrypt.compare(obj.password, user.password);
-  if (!match) {
-    throw Error("Incorrect password");
+  if (!user || !match) {
+    throw Error("Invalid credentials");
   }
   return user;
 };

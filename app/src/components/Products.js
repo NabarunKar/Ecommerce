@@ -9,7 +9,7 @@ function Products(props) {
       <ul>
         {products.map((p) => (
           <li key={p._id}>
-            <Link to={`/items/${p._id}`}>
+            <Link to={`/products/${p._id}`}>
               <h2>{p.title}</h2>
             </Link>
             <h3>Price: ${p.price}</h3>
