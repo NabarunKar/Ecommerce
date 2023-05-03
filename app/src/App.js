@@ -21,25 +21,25 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route exact path="/products/:id">
+          <Route path="/products/:id">
             <Product />
           </Route>
-          <Route exact path="/about">
+          <Route path="/about">
             <AboutUs />
           </Route>
-          <Route exact path="/contact">
+          <Route path="/contact">
             <ContactUs />
           </Route>
-          <Route exact path="/login">
+          <Route path="/login">
             <Login />
           </Route>
-          <Route exact path="/create">
+          <Route path="/create">
             <SignUp />
           </Route>
-          <Route exact path="/profile/:id">
+          <Route path="/profile/:id">
             {user && <Profile />}
           </Route>
-          <Route exact path="/cart">
+          <Route path="/cart">
             <Cart />
           </Route>
         </Switch>
