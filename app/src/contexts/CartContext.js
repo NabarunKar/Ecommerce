@@ -28,8 +28,8 @@ const cartReducer = (state, action) => {
         return {
           ...state,
           cart: state.cart.filter((p) => p._id !== action.payload.id),
-          total_item: new_total_item < 0 ? 0 : new_total_item,
-          total_amount: new_total_amount < 0 ? 0 : new_total_amount,
+          total_item: new_total_item,
+          total_amount: new_total_amount,
         };
       }
       return state;
