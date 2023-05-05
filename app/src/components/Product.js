@@ -11,6 +11,7 @@ import { useCartContext } from "../contexts/CartContext";
 import Reviews from "./Reviews";
 import { useAuthContext } from "../hooks/useAuthContext";
 import ReviewForm from "./ReviewForm";
+import BackButton from "./BackButton";
 
 function Product() {
   const { id } = useParams();
@@ -42,9 +43,7 @@ function Product() {
 
   return (
     <div>
-      <Link to="/">
-        <button>Back</button>
-      </Link>
+      <BackButton />
       {error && <div>{error}</div>}
       {isPending && <div>Loading...</div>}
       {data && (

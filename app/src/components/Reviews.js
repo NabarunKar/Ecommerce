@@ -18,7 +18,7 @@ function Reviews(props) {
 
                 {user && r.userId === user._id && (
                   <>
-                    <Link>Edit</Link> <Link>Delete</Link>
+                    <Link>Edit/Delete</Link>
                   </>
                 )}
                 <p>{r.content}</p>

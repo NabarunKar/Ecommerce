@@ -1,10 +1,13 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import UseFetch from "../hooks/useFetch";
 import BackButton from "./BackButton";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 function Review() {
   const { id } = useParams();
+  const { user } = useAuthContext();
+
   const [data, isPending, error] = UseFetch(
     `/api/products/reviews/review/${id}`
   );
@@ -15,6 +18,7 @@ function Review() {
       {isPending && <div>Loading...</div>}
       {data && (
         <div>
+          {user && user._id === data.userId && <Link>Edit/Delete</Link>}
           <h1>
             {data.userName} <small>({data.userId})</small>
           </h1>
