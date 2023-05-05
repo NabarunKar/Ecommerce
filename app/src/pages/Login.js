@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Login = () => {
+  const { user } = useAuthContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,25 +18,30 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h3>Log In</h3>
-
-      <label>Email</label>
-      <input
-        type="email"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-      />
-
-      <label>Password</label>
-      <input
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-      />
-      <button disabled={isPending}>Login</button>
+    <div>
       {error && <div>{error}</div>}
-    </form>
+      {isPending && <h1>Logging in...</h1>}
+      {!isPending && !user && (
+        <form onSubmit={handleSubmit}>
+          <h3>Log In</h3>
+
+          <label>Email</label>
+          <input
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
+
+          <label>Password</label>
+          <input
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
+          <button disabled={isPending}>Login</button>
+        </form>
+      )}
+    </div>
   );
 };
 

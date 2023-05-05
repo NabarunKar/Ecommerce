@@ -1,12 +1,31 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import {
+  Link,
+  Route,
+  Switch,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom";
 import UseFetch from "../hooks/useFetch";
 import { useCartContext } from "../contexts/CartContext";
 import Reviews from "./Reviews";
 
+// test
+import Filter from "./Filter";
+import Review from "./Review";
+import { useAuthContext } from "../hooks/useAuthContext";
+import ReviewForm from "./ReviewForm";
+
 function Product() {
   const { id } = useParams();
+  const { path, url } = useRouteMatch();
+
+  const { user } = useAuthContext();
+
   const [data, isPending, error] = UseFetch(`/api/products/${id}`);
+  const [reviewData, reviewIsPending, reviewDataError] = UseFetch(
+    `/api/products/reviews/${id}`
+  );
 
   const [quantity, setQuantity] = useState(1);
 
@@ -81,8 +100,49 @@ function Product() {
               </li>
             ))}
           </div>
+          <div>{user && <ReviewForm />}</div>
           <div>
-            <Reviews id={id} />
+            <nav>
+              <ul>
+                <li>
+                  <Link to={`${url}/all-reviews`}>
+                    All Reviews ({reviewData && reviewData.length})
+                  </Link>
+                </li>
+                {user && (
+                  <li>
+                    <Link to={`${url}/my-reviews`}>
+                      My Reviews (
+                      {reviewData &&
+                        user &&
+                        reviewData.filter((e) => e.userId === user._id).length}
+                      )
+                    </Link>
+                  </li>
+                )}
+              </ul>
+            </nav>
+
+            {/* Nested routes for reviews */}
+            {reviewDataError && <div>{reviewDataError}</div>}
+            {reviewIsPending && <div>Loading...</div>}
+            {reviewData && (
+              <Switch>
+                <Route path={`${path}/all-reviews`}>
+                  <Reviews data={reviewData} />
+                </Route>
+                <Route path={`${path}/my-reviews`}>
+                  {user && (
+                    <Reviews
+                      data={reviewData.filter((e) => e.userId === user._id)}
+                    />
+                  )}
+                </Route>
+                <Route>
+                  <Reviews data={reviewData} />
+                </Route>
+              </Switch>
+            )}
           </div>
         </>
       )}
