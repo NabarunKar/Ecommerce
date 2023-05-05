@@ -14,4 +14,7 @@ router.patch("/", productsController.updateReview);
 // DELETE a review
 router.delete("/:id", productsController.deleteReview);
 
+// GET review by id
+router.get("/review/:id", productsController.getReviewById);
+
 module.exports = router;

@@ -9,10 +9,6 @@ import {
 import UseFetch from "../hooks/useFetch";
 import { useCartContext } from "../contexts/CartContext";
 import Reviews from "./Reviews";
-
-// test
-import Filter from "./Filter";
-import Review from "./Review";
 import { useAuthContext } from "../hooks/useAuthContext";
 import ReviewForm from "./ReviewForm";
 

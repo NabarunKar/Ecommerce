@@ -10,6 +10,7 @@ import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import { useAuthContext } from "./hooks/useAuthContext";
 import Cart from "./components/Cart";
+import Review from "./components/Review";
 
 function App() {
   const { user } = useAuthContext();
@@ -24,6 +25,9 @@ function App() {
           <Route path="/products/:id">
             <Product />
           </Route>
+          <Route path="/reviews/:id">
+            <Review />
+          </Route>
           <Route path="/about">
             <AboutUs />
           </Route>
@@ -36,9 +40,7 @@ function App() {
           <Route path="/create">
             <SignUp />
           </Route>
-          <Route path="/profile/:id">
-            {user && <Profile />}
-          </Route>
+          <Route path="/profile/:id">{user && <Profile />}</Route>
           <Route path="/cart">
             <Cart />
           </Route>

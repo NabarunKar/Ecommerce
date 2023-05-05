@@ -12,9 +12,10 @@ function Reviews(props) {
           {props.data.map((r) => (
             <li key={r._id}>
               <div>
-                <b>
+                <Link to={`/reviews/${r._id}`}>
                   {r.userName} ({r.userId}) [{r.rating}]
-                </b>
+                </Link>
+
                 {user && r.userId === user._id && (
                   <>
                     <Link>Edit</Link> <Link>Delete</Link>
