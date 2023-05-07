@@ -64,7 +64,7 @@ async function getUserById(req, res, next) {
   let user;
   try {
     // ignore the password
-    user = await User.findById(req.params.id, { password: 0 });
+    user = await User.findById(req.authUserId, { password: 0 });
     if (!user) {
       return res.status(404).json({ message: "Cannot find user" });
     }

@@ -1,12 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const usersController = require("../controllers/usersController");
+const requireAuth = require("../middleware/requireAuth");
 
 // GET all users
 router.get("/", usersController.getAllUsers);
 
 // GET a single user
-router.get("/:id", usersController.getUserById, usersController.getUser);
+router.get(
+  "/:id",
+  requireAuth,
+  usersController.getUserById,
+  usersController.getUser
+);
 
 // CREATE a new user
 // router.post("/", usersController.createUser);
