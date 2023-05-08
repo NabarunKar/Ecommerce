@@ -5,8 +5,14 @@ const router = express.Router();
 // Import review routes
 const reviewsRoutes = require("./reviews");
 
+// Import category routes
+const categoryRoutes = require("./category");
+
 // Set up review routes
 router.use("/reviews", reviewsRoutes);
+
+// Set up category routes
+router.use("/category", categoryRoutes);
 
 // GET all products
 router.get("/", productsController.getAllProducts);
