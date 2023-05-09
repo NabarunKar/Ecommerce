@@ -46,7 +46,7 @@ async function updateProduct(req, res) {
 // Delete a product
 async function deleteProduct(req, res) {
   try {
-    res.product.deleteOne();
+    await res.product.deleteOne();
     res.json({ message: "Product deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });
