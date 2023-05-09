@@ -95,7 +95,7 @@ function Product() {
               </li>
             ))}
           </div>
-          <div>{user && <ReviewForm />}</div>
+          <div>{user && <ReviewForm id={id} />}</div>
           <div>
             <nav>
               <ul>

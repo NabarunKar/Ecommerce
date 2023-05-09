@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
-  title: String,
-  brand: String,
-  price: Number,
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  price: { type: Number, required: true },
+  stock: { type: Number, required: true },
+  thumbnail: { type: String, required: true },
+  images: [{ type: String, required: true }],
+  categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
+  tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
 });
 
 // add pre middleware to product schema
