@@ -15,7 +15,10 @@ categorySchema.pre(
       // remove the category from the categories array of each product that contains it
       await mongoose
         .model("Product")
-        .updateMany({}, { $pull: { categories: this._id } });
+        .updateMany(
+          { categories: this._id },
+          { $pull: { categories: this._id } }
+        );
 
       next();
     } catch (err) {

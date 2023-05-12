@@ -52,10 +52,11 @@ const updateTagById = async (req, res) => {
 // DELETE a tag by ID
 const deleteTagById = async (req, res) => {
   try {
-    const tag = await Tag.findByIdAndDelete(req.params.id);
+    const tag = await Tag.findById(req.params.id);
     if (!tag) {
       return res.status(404).json({ success: false, message: "Tag not found" });
     }
+    await tag.deleteOne();
     res.status(200).json({ success: true, message: "Tag deleted" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
