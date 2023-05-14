@@ -17,6 +17,6 @@ const orderDetailsSchema = new mongoose.Schema({
   },
 });
 
-const OrderDetails = mongoose.model("OrderDetails", orderDetailsSchema);
+// TODO: add pre middleware for save() method to reduce the product stock acc. to quantity
 
-module.exports = OrderDetails;
+module.exports = mongoose.model("OrderDetails", orderDetailsSchema);
