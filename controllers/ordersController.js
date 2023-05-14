@@ -4,7 +4,7 @@ const OrderDetails = require("../models/OrderDetails");
 const Order = require("../models/Order");
 
 // Place order for array of products at once
-async function purchaseAll(req, res) {
+async function placeOrders(req, res) {
   // GET the user from database
   const user = await User.findOne({ _id: req.authUserId });
   if (!user) {
@@ -36,3 +36,35 @@ async function purchaseAll(req, res) {
     return res.status(403).json({ message: err.message });
   }
 }
+
+// Cancel purchase orders from an array of ids
+async function cancelOrders(req, res) {
+  // GET the user from database
+  const user = await User.findOne({ _id: req.authUserId });
+  if (!user) {
+    return res.status(403).json({ message: "Forbidden" });
+  }
+  // The request should contain an array object `ids`
+  const ids = req.ids;
+  try {
+    let orderDetailsObj;
+    let count = 0;
+    for (let id of ids) {
+      orderDetailsObj = await OrderDetails.findById(id);
+      if (orderDetailsObj && orderDetailsObj.userId === user._id) {
+        await orderDetailsObj.deleteOne();
+        count++;
+      }
+    }
+
+    res.status(200).json({ message: `${count} documents deleted` });
+    console.log(`${count} documents deleted`);
+  } catch (err) {
+    return res.status(403).json({ message: err.message });
+  }
+}
+
+module.exports = {
+  placeOrders,
+  cancelOrders,
+};

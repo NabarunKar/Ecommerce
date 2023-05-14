@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  super: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // Static signup method
@@ -51,6 +55,7 @@ userSchema.statics.signup = async function (user) {
   const hash = await bcrypt.hash(user.password, salt);
 
   user.password = hash;
+  user.super = false;
   const newUser = await this.create(user);
   return newUser;
 };
