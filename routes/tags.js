@@ -1,20 +1,32 @@
 const express = require("express");
 const tagsController = require("../controllers/tagsController");
+const requireAuth = require("../middleware/requireAuth");
+const requireUserRole = require("../middleware/requireUserRole");
 const router = express.Router();
 
-// ADD a new category
-router.post("/", tagsController.createTag);
+// ADD a new tag
+router.post("/", requireAuth, requireUserRole, tagsController.createTag);
 
-// GET all category
+// GET all tags
 router.get("/", tagsController.getAllTags);
 
-// UPDATE a category
-router.patch("/:id", tagsController.updateTagById);
+// UPDATE a tag
+router.patch(
+  "/:id",
+  requireAuth,
+  requireUserRole,
+  tagsController.updateTagById
+);
 
-// DELETE a category
-router.delete("/:id", tagsController.deleteTagById);
+// DELETE a tag
+router.delete(
+  "/:id",
+  requireAuth,
+  requireUserRole,
+  tagsController.deleteTagById
+);
 
-// GET category by id
+// GET tag by id
 router.get("/:id", tagsController.getTagById);
 
 module.exports = router;

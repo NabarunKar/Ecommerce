@@ -35,14 +35,17 @@ async function getUser(req, res) {
 
 // Update a user
 async function updateUser(req, res) {
-  for (const prop in req.body) {
-    if (req.body[prop]) {
-      res.user[prop] = req.body[prop];
-    }
-  }
-
   try {
-    const updatedUser = await res.user.save();
+    const updatedUser = await User.updateOne(
+      { _id: req.authUserId },
+      {
+        $set: {
+          name: req.body.name,
+          deliveryAddress: req.body.deliveryAddress,
+        },
+      }
+    );
+
     res.json(updatedUser);
   } catch (err) {
     res.status(400).json({ message: err.message });

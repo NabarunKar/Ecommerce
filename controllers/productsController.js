@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const User = require("../models/User");
 
 // Get all products
 async function getAllProducts(req, res) {
@@ -46,8 +47,15 @@ async function updateProduct(req, res) {
 // Delete a product
 async function deleteProduct(req, res) {
   try {
-    await res.product.deleteOne();
-    res.json({ message: "Product deleted" });
+    const user = await User.findById(req.authUserId);
+    // If user is admin or user is the seller of the product
+    if (user.super || user._id === res.product.sellerId) {
+      await res.product.deleteOne();
+      res.json({ message: "Product deleted" });
+    }
+    else {
+      res.status(403).json({ message: "Forbidden" });
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

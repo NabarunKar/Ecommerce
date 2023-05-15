@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const usersController = require("../controllers/usersController");
 const requireAuth = require("../middleware/requireAuth");
+const requireUserRole = require("../middleware/requireUserRole");
 
 // GET all users
-router.get("/", usersController.getAllUsers);
+router.get("/", requireAuth, requireUserRole, usersController.getAllUsers);
 
 // GET a single user
 router.get(
@@ -18,10 +19,16 @@ router.get(
 // router.post("/", usersController.createUser);
 
 // UPDATE a user
-router.patch("/:id", usersController.getUserById, usersController.updateUser);
+router.patch("/", requireAuth, usersController.updateUser);
 
 // DELETE a user
-router.delete("/:id", usersController.getUserById, usersController.deleteUser);
+router.delete(
+  "/:id",
+  requireAuth,
+  requireUserRole,
+  usersController.getUserById,
+  usersController.deleteUser
+);
 
 // Login user
 router.post("/login", usersController.loginUser);

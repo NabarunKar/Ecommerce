@@ -10,6 +10,7 @@ const categoryRoutes = require("./category");
 
 // Import tag routes
 const tagsRoutes = require("./tags");
+const requireAuth = require("../middleware/requireAuth");
 
 // Set up review routes
 router.use("/reviews", reviewsRoutes);
@@ -43,6 +44,7 @@ router.patch(
 // DELETE a product
 router.delete(
   "/:id",
+  requireAuth,
   productsController.getProductById,
   productsController.deleteProduct
 );

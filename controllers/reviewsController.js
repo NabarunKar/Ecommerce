@@ -41,17 +41,21 @@ async function getReviews(req, res) {
 // Update a particular review
 async function updateReview(req, res) {
   try {
-    const updatedReview = await Review.updateOne(
-      { _id: req.body._id },
-      {
-        $set: {
-          rating: req.body.rating,
-          content: req.body.content,
-        },
-      }
-    );
-
-    res.status(200).json(updatedReview);
+    const user = await User.findById(req.authUserId);
+    if (user._id === req.body.userId) {
+      const updatedReview = await Review.updateOne(
+        { _id: req.body._id },
+        {
+          $set: {
+            rating: req.body.rating,
+            content: req.body.content,
+          },
+        }
+      );
+      res.status(200).json(updatedReview);
+    } else {
+      res.status(403).json({ message: "Forbidden" });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: err.message });
@@ -61,8 +65,15 @@ async function updateReview(req, res) {
 // Delete a particular review
 async function deleteReview(req, res) {
   try {
-    const deletedReview = await Review.deleteOne({ _id: req.params.id });
-    res.status(200).json(deletedReview);
+    const user = await User.findById(req.authUserId);
+    const review = await Review.findById(req.params.id);
+    // If user is admin or user is the owner of the review
+    if (user.super || user._id === review.userId) {
+      await review.deleteOne();
+      res.status(200).json({ message: "Review deleted successfully" });
+    } else {
+      res.status(403).json({ message: "Forbidden" });
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
