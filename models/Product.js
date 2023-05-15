@@ -7,6 +7,11 @@ const productSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  verified: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   description: { type: String, required: true },
   price: { type: Number, required: true },
   stock: { type: Number, required: true, min: 0 },
@@ -15,6 +20,21 @@ const productSchema = new mongoose.Schema({
   categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
   tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
 });
+
+productSchema.pre(
+  "save",
+  { document: true, query: false },
+  async function (next) {
+    try {
+      let user = await mongoose.model("User").findById(this.sellerId);
+      this.verified = user.super ? true : false;
+
+      next();
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 // add pre middleware to product schema
 productSchema.pre(
