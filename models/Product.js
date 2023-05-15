@@ -24,6 +24,16 @@ productSchema.pre(
     try {
       // remove all reviews for this product
       await mongoose.model("Review").deleteMany({ productId: this._id });
+
+      // remove all orderDetails for this product
+      const orderDetailsArray = await mongoose
+        .model("OrderDetails")
+        .find({ productId: this._id })
+        .exec();
+      for (const o of orderDetailsArray) {
+        await o.deleteOne();
+      }
+
       next();
     } catch (err) {
       next(err);
