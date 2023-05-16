@@ -14,14 +14,28 @@ async function placeOrders(req, res) {
   // Which contains the Product ids and quantities
   // [ {productId: 101, quantity: 5}, ...]
   try {
-    const orders = req.orders.map((order) => {
+    const orders = req.orders.map(async (order) => {
+      let product = await Product.findById(order.productId);
+      if (product.sellerId === req.authUserId) {
+        throw Error("Cannot order own product");
+      }
       return {
         ...order,
-        price: Product.findById(order.productId).price, // Write the discounted price logic here if needed
+        userId: req.authUserId,
+        price: product.price * order.quantity, // Write the discounted price logic here if needed
       };
     });
-    const docs = await OrderDetails.insertMany(orders);
-    const insertedOrderDetailsIds = docs.map((order) => order._id);
+
+    const docs = await Promise.all(
+      orders.map(async (order) => {
+        let insertedOrderDetails = new OrderDetails(order);
+        let savedOrderDetails = await insertedOrderDetails.save();
+        return savedOrderDetails;
+      })
+    );
+
+    const insertedOrderDetailsIds = docs.map((e) => e._id);
+
     const order = new Order({
       userId: user._id,
       items: insertedOrderDetailsIds,
@@ -63,6 +77,10 @@ async function cancelOrders(req, res) {
     return res.status(403).json({ message: err.message });
   }
 }
+
+// Get all orders for a user
+
+// Get a single order detail for a user (using orderDetails._id)
 
 module.exports = {
   placeOrders,

@@ -18,35 +18,32 @@ async function getAllUsers(req, res) {
 
 // Get a single user
 async function getUser(req, res) {
-  res.json(res.user);
+  // Admin can also get any user
+  const user = await User.findById(req.authUserId);
+  if (user.super || req.authUserId === req.params.id) res.json(res.user);
+  else
+    res.status(400).json({ message: "Id doesn't match with the auth user id" });
 }
-
-// Create a new user
-// async function createUser(req, res) {
-//   const user = new User(req.body);
-
-//   try {
-//     const newUser = await user.save();
-//     res.status(201).json(newUser);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// }
 
 // Update a user
 async function updateUser(req, res) {
   try {
-    const updatedUser = await User.updateOne(
-      { _id: req.authUserId },
-      {
-        $set: {
-          name: req.body.name,
-          deliveryAddress: req.body.deliveryAddress,
-        },
-      }
-    );
+    if (req.authUserId === req.body._id) {
+      const updatedUser = await User.updateOne(
+        { _id: req.authUserId },
+        {
+          $set: {
+            name: req.body.name,
+            deliveryAddress: req.body.deliveryAddress,
+          },
+        }
+      );
 
-    res.json(updatedUser);
+      res.json(updatedUser);
+    } else
+      res
+        .status(400)
+        .json({ message: "Id doesn't match with the auth user id" });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
