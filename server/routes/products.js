@@ -1,25 +1,8 @@
 const express = require("express");
 const productsController = require("../controllers/productsController");
 const router = express.Router();
-
-// Import review routes
-const reviewsRoutes = require("./reviews");
-
-// Import category routes
-const categoryRoutes = require("./category");
-
-// Import tag routes
-const tagsRoutes = require("./tags");
 const requireAuth = require("../middleware/requireAuth");
-
-// Set up review routes
-router.use("/reviews", reviewsRoutes);
-
-// Set up category routes
-router.use("/category", categoryRoutes);
-
-// Set up tags routes
-router.use("/tags", tagsRoutes);
+const requireUserRole = require("../middleware/requireUserRole");
 
 // GET all products
 router.get("/", productsController.getAllProducts);
@@ -32,11 +15,13 @@ router.get(
 );
 
 // ADD a new product
-router.post("/", productsController.addProduct);
+router.post("/", requireAuth, requireUserRole, productsController.addProduct);
 
 // UPDATE a product
 router.patch(
   "/:id",
+  requireAuth,
+  requireUserRole,
   productsController.getProductById,
   productsController.updateProduct
 );
@@ -45,6 +30,7 @@ router.patch(
 router.delete(
   "/:id",
   requireAuth,
+  requireUserRole,
   productsController.getProductById,
   productsController.deleteProduct
 );

@@ -8,7 +8,7 @@ const requireUserRole = async (req, res, next) => {
   } else {
     return res
       .status(403)
-      .json({ message: "Only admins can access this data" });
+      .json({ message: "You don't have access to this api" });
   }
 };
 

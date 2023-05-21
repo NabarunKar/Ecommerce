@@ -19,7 +19,6 @@ async function getProduct(req, res) {
 // Add a new product
 async function addProduct(req, res) {
   const product = new Product(req.body);
-
   try {
     const newProduct = await product.save();
     res.status(201).json(newProduct);
@@ -30,14 +29,14 @@ async function addProduct(req, res) {
 
 // Update a product
 async function updateProduct(req, res) {
-  for (const prop in req.body) {
-    if (req.body[prop]) {
-      res.product[prop] = req.body[prop];
-    }
-  }
-
   try {
-    const updatedProduct = await res.product.save();
+    // Access the product obtained from the middleware
+    const product = res.product;
+
+    // Update the product with the request body data
+    Object.assign(product, req.body);
+
+    const updatedProduct = await product.save();
     res.json(updatedProduct);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -47,15 +46,8 @@ async function updateProduct(req, res) {
 // Delete a product
 async function deleteProduct(req, res) {
   try {
-    const user = await User.findById(req.authUserId);
-    // If user is admin or user is the seller of the product
-    if (user.super || user._id === res.product.sellerId) {
-      await res.product.deleteOne();
-      res.json({ message: "Product deleted" });
-    }
-    else {
-      res.status(403).json({ message: "Forbidden" });
-    }
+    await res.product.deleteOne();
+    res.json({ message: "Product deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
