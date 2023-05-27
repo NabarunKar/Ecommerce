@@ -13,7 +13,6 @@ app.use(
 );
 
 // Set up database connection
-// Secret Key: Ggg2HTOeE4qMdxco
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -27,6 +26,7 @@ db.once("open", function () {
 // Import routes
 const usersRoutes = require("./routes/users");
 const productsRoutes = require("./routes/products");
+const reviewsRoutes = require("./routes/reviews");
 
 // Set up middleware
 app.use(express.json());
@@ -34,11 +34,10 @@ app.use(express.json());
 // Set up routes
 app.use("/api/users", usersRoutes);
 app.use("/api/products", productsRoutes);
+app.use("/api/reviews", reviewsRoutes);
 
 // Start server
 const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
-
-
