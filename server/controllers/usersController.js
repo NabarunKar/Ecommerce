@@ -34,7 +34,7 @@ async function updateUser(req, res) {
         {
           $set: {
             name: req.body.name,
-            deliveryAddress: req.body.deliveryAddress,
+            email: req.body.email,
           },
         }
       );
