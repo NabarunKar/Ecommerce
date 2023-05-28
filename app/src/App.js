@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import { useAuthContext } from "./hooks/useAuthContext";
 import Cart from "./components/Cart";
 import Review from "./components/Review";
+import Browse from "./pages/Browse";
 
 function App() {
   const { user } = useAuthContext();
@@ -24,6 +25,9 @@ function App() {
           </Route>
           <Route path="/products/:id">
             <Product />
+          </Route>
+          <Route path="/products">
+            <Browse />
           </Route>
           <Route path="/reviews/:id">
             <Review />
