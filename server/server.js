@@ -1,23 +1,43 @@
 const express = require("express");
-const http = require("http");
-const app = express();
+const mongoose = require("mongoose");
 const cors = require("cors");
-const fs = require("fs");
 require("dotenv").config();
 
-const products = require("./data/products.json");
+const app = express();
 
-const server = http.createServer(app);
-const port = process.env.PORT || 5000;
+// Enable CORS
+app.use(
+  cors({
+    origin: true,
+  })
+);
 
-app.get("/products", (req, res) => {
-  res.json(products);
+// Set up database connection
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function () {
+  console.log("Connected to MongoDB Atlas");
 });
 
-app.get("/products/:id", (req, res) => {
-  res.json(products.find((e) => e.id == req.params.id));
-});
+// Import routes
+const usersRoutes = require("./routes/users");
+const productsRoutes = require("./routes/products");
+const reviewsRoutes = require("./routes/reviews");
 
+// Set up middleware
+app.use(express.json());
+
+// Set up routes
+app.use("/api/users", usersRoutes);
+app.use("/api/products", productsRoutes);
+app.use("/api/reviews", reviewsRoutes);
+
+// Start server
+const port = process.env.PORT;
 app.listen(port, () => {
-  console.info(`Server started on port ${port}`);
+  console.log(`Server listening on port ${port}`);
 });

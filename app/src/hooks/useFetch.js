@@ -19,6 +19,7 @@ const UseFetch = (url) => {
         setData(data);
         setIsPending(false);
         setError(null);
+        console.log(url);
       })
       .catch((err) => {
         if (err.name === "AbortError") {

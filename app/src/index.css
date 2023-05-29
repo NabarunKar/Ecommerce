@@ -1,7 +1,16 @@
-*{
-    font-family: 'Roboto', sans-serif;
+html {
+  scroll-behavior: smooth;
 }
-
-html{
-    scroll-behavior: smooth;
+* {
+  font-family: "Roboto", sans-serif;
+  box-sizing: border-box;
+  margin: 0px;
+}
+.btn-link{
+  text-decoration: none;
+  color: #ffff;
+}
+.btn-link-dark{
+  text-decoration: none;
+  color: #000;
 }
