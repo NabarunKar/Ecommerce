@@ -50,7 +50,7 @@ userSchema.statics.signup = async function (user) {
 
   // Generate salt
   const salt = await bcrypt.genSalt(10);
-  
+
   // Generate hash
   const hash = await bcrypt.hash(user.password, salt);
 
@@ -69,7 +69,7 @@ userSchema.statics.login = async function (obj) {
   const user = await this.findOne({ email: obj.email });
 
   // Validate password
-  const match = await bcrypt.compare(obj.password, user.password);
+  const match = user ? await bcrypt.compare(obj.password, user.password) : null;
   if (!user || !match) {
     throw Error("Invalid credentials");
   }

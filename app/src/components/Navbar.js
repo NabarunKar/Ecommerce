@@ -14,7 +14,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
@@ -41,25 +41,26 @@ function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" elevation={0}
+      color="transparent"
+      >
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
-            color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            <Link className="btn-link-dark" to="/">
+              <HomeIcon />
+            </Link>
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link className="btn-link" to="/">
-              Shop
-            </Link>
+            App
           </Typography>
 
           <Badge badgeContent={total_item} color="secondary">
-            <Link className="btn-link" to="/cart">
+            <Link className="btn-link-dark" to="/cart">
               <ShoppingCartIcon />
             </Link>
           </Badge>
@@ -101,8 +102,8 @@ function Navbar() {
             </div>
           )}
           {!user && (
-            <Button color="inherit">
-              <Link className="btn-link" to="/login">
+            <Button variant="text">
+              <Link className="btn-link-dark" to="/login">
                 Log In
               </Link>
             </Button>
