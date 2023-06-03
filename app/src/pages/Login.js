@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import {
   Alert,
@@ -16,7 +16,6 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Login = () => {
-  const routerHistory = useHistory();
   const { user } = useAuthContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,11 +31,7 @@ const Login = () => {
 
     console.log(email, password);
 
-    await login(email, password).then((res) => {
-      setEmail(null);
-      setPassword(null);
-      routerHistory.replace("/");
-    });
+    await login(email, password);
   };
 
   return (

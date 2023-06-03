@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Alert,
   Box,
@@ -15,8 +15,6 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const SignUp = () => {
-  const routerHistory = useHistory();
-
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -33,10 +31,7 @@ const SignUp = () => {
     e.preventDefault();
 
     console.log(user);
-    await signup(user).then((res) => {
-      setUser(null);
-      routerHistory.replace("/");
-    });
+    await signup(user);
   };
 
   return (
