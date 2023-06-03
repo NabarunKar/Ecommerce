@@ -1,6 +1,8 @@
+import { useHistory } from "react-router-dom";
 import { useAuthContext } from "./useAuthContext";
 
 export const useLogout = () => {
+  const routerHistory = useHistory();
   const { dispatch } = useAuthContext();
 
   const logout = () => {
@@ -9,6 +11,7 @@ export const useLogout = () => {
 
     // dispatch logout action
     dispatch({ type: "LOGOUT" });
+    routerHistory.replace("/");
   };
 
   return { logout };

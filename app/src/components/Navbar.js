@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useCartContext } from "../contexts/CartContext";
@@ -19,8 +19,6 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
 function Navbar() {
-  const routerHistory = useHistory();
-
   const [anchorEl, setAnchorEl] = useState(null);
 
   const { logout } = useLogout();
@@ -31,7 +29,6 @@ function Navbar() {
 
   const handleClick = () => {
     logout();
-    routerHistory.replace("/");
   };
 
   const handleMenu = (event) => {

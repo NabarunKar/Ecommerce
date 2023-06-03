@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
+import { useHistory } from "react-router-dom";
 
 export const useSignup = () => {
+  const routerHistory = useHistory();
   const [isPending, setIsPending] = useState(null);
   const [error, setError] = useState(null);
   const { dispatch } = useAuthContext();
@@ -10,14 +12,13 @@ export const useSignup = () => {
     setIsPending(true);
     setError(null);
 
-    const response = await fetch('/api/users/signup', {
-      method: 'POST',
+    const response = await fetch("/api/users/signup", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
     });
-    
 
     const json = await response.json();
 
@@ -34,9 +35,10 @@ export const useSignup = () => {
       dispatch({ type: "LOGIN", payload: json });
 
       setIsPending(false);
+
+      routerHistory.replace("/");
     }
   };
 
   return { signup, isPending, error };
 };
-

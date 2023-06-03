@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
+import { useHistory } from "react-router-dom";
 
 export const useLogin = () => {
+  const routerHistory = useHistory();
   const [isPending, setIsPending] = useState(null);
   const [error, setError] = useState(null);
   const { dispatch } = useAuthContext();
@@ -33,6 +35,8 @@ export const useLogin = () => {
       dispatch({ type: "LOGIN", payload: json });
 
       setIsPending(false);
+
+      routerHistory.replace("/");
     }
   };
 
