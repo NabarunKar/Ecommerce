@@ -8,12 +8,15 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { CartProvider } from "./contexts/CartContext";
+import { ProductProvider } from "./contexts/ProductContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <AuthContextProvider>
-    <CartProvider>
-      <App />
-    </CartProvider>
+    <ProductProvider>
+      <CartProvider>
+        <App />
+      </CartProvider>
+    </ProductProvider>
   </AuthContextProvider>
 );

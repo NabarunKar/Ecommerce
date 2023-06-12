@@ -1,16 +1,16 @@
 import React from "react";
 import Products from "../components/Products";
 import Filter from "../components/Filter";
-import UseFetch from "../hooks/useFetch";
+import { useProductContext } from "../contexts/ProductContext";
 
 function Browse() {
-  const [data, isPending, error] = UseFetch("/api/products");
+  const { isLoading, error, products } = useProductContext();
   return (
     <div>
       <Filter />
       {error && <div>{error}</div>}
-      {isPending && <div>Loading...</div>}
-      {data && <Products products={data} />}
+      {isLoading && <div>Loading...</div>}
+      {products && <Products products={products} />}
     </div>
   );
 }
