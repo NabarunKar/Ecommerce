@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const UseFetch = (url) => {
+const UseFetch = (url, token = null) => {
   const [data, setData] = useState(null);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
@@ -8,7 +8,16 @@ const UseFetch = (url) => {
   useEffect(() => {
     const abortCont = new AbortController();
 
-    fetch(url, { signal: abortCont.signal })
+    const requestOptions = {
+      signal: abortCont.signal,
+      headers: {},
+    };
+
+    if (token) {
+      requestOptions.headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    fetch(url, requestOptions)
       .then((res) => {
         if (!res.ok) {
           throw Error(`Could not fetch data from ${url}`);
@@ -31,7 +40,7 @@ const UseFetch = (url) => {
       });
 
     return () => abortCont.abort();
-  }, [data]);
+  }, [data, token, url]);
 
   return [data, isPending, error];
 };
