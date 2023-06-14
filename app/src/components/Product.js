@@ -25,8 +25,10 @@ function Product() {
   );
 
   const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState(null);
+  const [size, setSize] = useState(null);
 
-  const { addToCart, cart, removeFromCart } = useCartContext();
+  const { addToCart, cart } = useCartContext();
 
   const decreaseQuantity = () => {
     quantity > 1 ? setQuantity(quantity - 1) : setQuantity(1);
@@ -49,7 +51,20 @@ function Product() {
       {data && (
         <>
           <div>
-            {data.stock > 0 && !checkItemIfExistsInCart(data._id) && (
+            {color && (
+              <h3>
+                Your chosen color is
+                <button
+                  style={{
+                    background: `${color}`,
+                    width: "50px",
+                    height: "50px",
+                  }}
+                ></button>
+              </h3>
+            )}
+            {size && <h3>Your chosen size is {size}</h3>}
+            {data.stock > 0 && (
               <>
                 <button
                   disabled={quantity == 1}
@@ -67,14 +82,50 @@ function Product() {
                 <br />
                 <button
                   onClick={() => {
-                    addToCart(quantity, data);
+                    addToCart({
+                      productId: data._id,
+                      price: data.price,
+                      quantity: quantity,
+                      color: color,
+                      size: size,
+                    });
                   }}
+                  disabled={(data.colors && !color) || (data.sizes && !size)}
                 >
                   Add to cart
                 </button>
               </>
             )}
-            {checkItemIfExistsInCart(data._id) && (
+            {data.colors &&
+              data.colors.map((ele) => (
+                <li key={ele}>
+                  <button
+                    style={{
+                      background: `${ele}`,
+                      width: "50px",
+                      height: "50px",
+                      borderRadius: "50%",
+                    }}
+                    onClick={() => setColor(ele)}
+                  ></button>
+                </li>
+              ))}
+            {data.sizes &&
+              data.sizes.map((ele) => (
+                <li key={ele}>
+                  <button
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      padding: "5px",
+                    }}
+                    onClick={() => setSize(ele)}
+                  >
+                    {ele}
+                  </button>
+                </li>
+              ))}
+            {/* {checkItemIfExistsInCart(data._id) && (
               <button
                 onClick={() => {
                   removeFromCart(data._id);
@@ -82,7 +133,7 @@ function Product() {
               >
                 Remove from cart
               </button>
-            )}
+            )} */}
             <br />
             <img src={data.thumbnail} alt="" />
             <h1>{data.title}</h1>

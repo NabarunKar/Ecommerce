@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useCartContext } from "../contexts/CartContext";
 
 function Cart() {
@@ -26,7 +26,7 @@ function Cart() {
             Clear all
           </button>
           <table>
-            <thead>
+            {/* <thead>
               <tr>
                 <th>Image</th>
                 <th>Title</th>
@@ -35,39 +35,41 @@ function Cart() {
                 <th>Total</th>
                 <th colSpan={2}>Action</th>
               </tr>
-            </thead>
+            </thead> */}
             <tbody>
-              {cart.map((p) => (
-                <tr key={p._id}>
+              {cart.map((ele) => (
+                <tr key={ele.cartItemId}>
                   <td>
-                    <img src={p.thumbnail} alt="" height="50px" />
+                    <img src={ele.thumbnail} alt="" height="50px" />
                   </td>
-                  <td>{p.title}</td>
-                  <td>{p.price}</td>
+                  <td>{ele.title}</td>
+                  <td>{ele.price}</td>
+                  {ele.color && <td>{ele.color}</td>}
+                  {ele.size && <td>{ele.size}</td>}
                   <td>
                     <button
-                      disabled={p.quantity == 1}
+                      disabled={ele.quantity == 1}
                       onClick={() => {
-                        decrementQuantity(p._id);
+                        decrementQuantity(ele.cartItemId);
                       }}
                     >
                       -
                     </button>
-                    {p.quantity}
+                    {ele.quantity}
                     <button
-                      disabled={p.quantity == p.stock}
+                      disabled={ele.quantity == ele.stock}
                       onClick={() => {
-                        incrementQuantity(p._id);
+                        incrementQuantity(ele.cartItemId);
                       }}
                     >
                       +
                     </button>
                   </td>
-                  <td>{p.quantity * p.price}</td>
+                  <td>{ele.quantity * ele.price}</td>
                   <td>
                     <button
                       onClick={() => {
-                        removeFromCart(p._id);
+                        removeFromCart(ele.cartItemId);
                       }}
                     >
                       Remove
