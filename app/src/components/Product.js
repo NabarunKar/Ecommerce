@@ -38,11 +38,6 @@ function Product() {
     quantity < stock ? setQuantity(quantity + 1) : setQuantity(stock);
   };
 
-  const checkItemIfExistsInCart = (id) => {
-    if (cart.find((p) => p._id === id)) return true;
-    return false;
-  };
-
   return (
     <div>
       <BackButton />
@@ -90,7 +85,10 @@ function Product() {
                       size: size,
                     });
                   }}
-                  disabled={(data.colors && !color) || (data.sizes && !size)}
+                  disabled={
+                    (data.colors.length > 0 && !color) ||
+                    (data.sizes.length > 0 && !size)
+                  }
                 >
                   Add to cart
                 </button>

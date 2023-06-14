@@ -26,16 +26,6 @@ function Cart() {
             Clear all
           </button>
           <table>
-            {/* <thead>
-              <tr>
-                <th>Image</th>
-                <th>Title</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-                <th colSpan={2}>Action</th>
-              </tr>
-            </thead> */}
             <tbody>
               {cart.map((ele) => (
                 <tr key={ele.cartItemId}>
