@@ -8,10 +8,10 @@ import {
 } from "react-router-dom";
 import UseFetch from "../hooks/useFetch";
 import { useCartContext } from "../contexts/CartContext";
-import Reviews from "./Reviews";
+import Reviews from "../components/Reviews";
 import { useAuthContext } from "../hooks/useAuthContext";
-import ReviewForm from "./ReviewForm";
-import BackButton from "./BackButton";
+import ReviewForm from "../components/ReviewForm";
+import BackButton from "../components/BackButton";
 
 function Product() {
   const { id } = useParams();
@@ -123,15 +123,7 @@ function Product() {
                   </button>
                 </li>
               ))}
-            {/* {checkItemIfExistsInCart(data._id) && (
-              <button
-                onClick={() => {
-                  removeFromCart(data._id);
-                }}
-              >
-                Remove from cart
-              </button>
-            )} */}
+      
             <br />
             <img src={data.thumbnail} alt="" />
             <h1>{data.title}</h1>
