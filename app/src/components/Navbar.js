@@ -13,10 +13,13 @@ import {
   Typography,
   Menu,
   MenuItem,
+  Avatar,
+  ListItemIcon,
+  Divider,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import AccountCircle from "@mui/icons-material/AccountCircle";
+import Logout from '@mui/icons-material/Logout';
 
 function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -73,29 +76,56 @@ function Navbar() {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                <Avatar sx={{ width: 32, height: 32 }}>{user.name[0]}</Avatar>
               </IconButton>
               <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
                 open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
+                id="account-menu"
                 onClose={handleClose}
+                onClick={handleClose}
+                PaperProps={{
+                  elevation: 0,
+                  sx: {
+                    overflow: "visible",
+                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                    mt: 1.5,
+                    "& .MuiAvatar-root": {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    "&:before": {
+                      content: '""',
+                      display: "block",
+                      position: "absolute",
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: "background.paper",
+                      transform: "translateY(-50%) rotate(45deg)",
+                      zIndex: 0,
+                    },
+                  },
+                }}
+                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
-                <MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <Avatar />
                   <Link className="btn-link-dark" to="/profile">
                     Profile
                   </Link>
                 </MenuItem>
-                <MenuItem onClick={handleClick}>Log out</MenuItem>
+                <Divider />
+                <MenuItem onClick={handleClick}>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
               </Menu>
             </div>
           )}
