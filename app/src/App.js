@@ -16,6 +16,7 @@ function App() {
   return (
     <Router>
       <Navbar />
+      <Cart />
       <Switch>
         <Route exact path="/">
           <Home />
@@ -36,9 +37,9 @@ function App() {
           <SignUp />
         </Route>
         <Route path="/profile">{user && <Profile />}</Route>
-        <Route path="/cart">
+        {/* <Route path="/cart">
           <Cart />
-        </Route>
+        </Route> */}
       </Switch>
     </Router>
   );

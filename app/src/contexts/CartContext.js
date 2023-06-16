@@ -6,6 +6,7 @@ const initialState = {
   cart: [],
   total_item: 0,
   total_amount: 0,
+  open: false,
 };
 
 const cartReducer = (state, action) => {
@@ -77,7 +78,17 @@ const cartReducer = (state, action) => {
         total_item: state.cart.reduce((acc, ele) => acc + ele.quantity, 0),
       };
     case "CLEAR_ALL":
-      return initialState;
+      return { ...initialState, open: true };
+    case "OPEN":
+      return {
+        ...state,
+        open: true,
+      };
+    case "CLOSE":
+      return {
+        ...state,
+        open: false,
+      };
     default:
       return state;
   }
@@ -109,11 +120,23 @@ const CartProvider = ({ children }) => {
     dispatch({ type: "DEC", payload: { id } });
   };
 
+  const openCart = () => {
+    dispatch({ type: "OPEN" });
+    console.log("cart opened");
+    console.log(state.open);
+  };
+
+  const closeCart = () => {
+    dispatch({ type: "CLOSE" });
+    console.log("cart closed");
+    console.log(state.open);
+  };
+
   useEffect(() => {
     dispatch({ type: "SYNC" });
 
     // localStorage save cart here
-    localStorage.setItem("cart", JSON.stringify(state));
+    localStorage.setItem("cart", JSON.stringify({ ...state, open: false }));
 
     console.log("cart updated");
 
@@ -131,6 +154,8 @@ const CartProvider = ({ children }) => {
         clearCart,
         incrementQuantity,
         decrementQuantity,
+        openCart,
+        closeCart,
       }}
     >
       {children}

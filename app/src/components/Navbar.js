@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import Logout from '@mui/icons-material/Logout';
+import Logout from "@mui/icons-material/Logout";
 
 function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -28,7 +28,7 @@ function Navbar() {
 
   const { user } = useAuthContext();
 
-  const { total_item } = useCartContext();
+  const { total_item, openCart } = useCartContext();
 
   const handleClick = () => {
     logout();
@@ -60,12 +60,15 @@ function Navbar() {
             App
           </Typography>
 
-          <Badge badgeContent={total_item} color="secondary">
-            <Link className="btn-link-dark" to="/cart">
+          <IconButton
+            onClick={() => {
+              openCart();
+            }}
+          >
+            <Badge badgeContent={total_item} color="secondary">
               <ShoppingCartIcon />
-            </Link>
-          </Badge>
-
+            </Badge>
+          </IconButton>
           {user && (
             <div>
               <IconButton
