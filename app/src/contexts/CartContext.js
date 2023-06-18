@@ -15,6 +15,8 @@ const cartReducer = (state, action) => {
    * {
    *  cartItemId: productId + color + size,
    *  productId: 2r79hf297918fh,
+   *  title: LG 258MPQ 24 Inch Monitor
+   *  thumbnail: "http://image.png"
    *  price: 44.45,
    *  quantity: 3,
    *  color: #fff,

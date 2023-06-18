@@ -79,6 +79,8 @@ function Product() {
                   onClick={() => {
                     addToCart({
                       productId: data._id,
+                      thumbnail: data.thumbnail,
+                      title: data.title,
                       price: data.price,
                       quantity: quantity,
                       color: color,
@@ -123,7 +125,7 @@ function Product() {
                   </button>
                 </li>
               ))}
-      
+
             <br />
             <img src={data.thumbnail} alt="" />
             <h1>{data.title}</h1>

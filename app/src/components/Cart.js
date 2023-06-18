@@ -1,12 +1,21 @@
 import React from "react";
 import { useCartContext } from "../contexts/CartContext";
 import {
+  Box,
   Button,
+  CardMedia,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
+  Paper,
+  Typography,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CircleIcon from "@mui/icons-material/Circle";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 function Cart() {
   const {
@@ -31,74 +40,126 @@ function Cart() {
       }}
       keepMounted
     >
-      <DialogTitle>Optional sizes</DialogTitle>
+      <DialogTitle>
+        {cart.length == 0 && <>Your cart is empty!</>}
+        {cart.length > 0 && (
+          <Box display="flex" justifyContent="space-between">
+            <span>{total_item} Items</span>
+            <span>${Math.round(total_amount * 100) / 100}</span>
+          </Box>
+          // <>
+          //   {total_item} Items - ${total_amount}
+          // </>
+        )}
+      </DialogTitle>
       <DialogContent>
-        {cart.length == 0 && <h1>Your cart is empty!</h1>}
         {cart.length > 0 && (
           <div>
-            <h1>Total {total_item} items in cart</h1>
-            <button
-              onClick={() => {
-                clearCart();
-              }}
-            >
-              Clear all
-            </button>
             <table>
               <tbody>
                 {cart.map((ele) => (
                   <tr key={ele.cartItemId}>
                     <td>
-                      <img src={ele.thumbnail} alt="" height="50px" />
+                      <Paper variant="outlined" sx={{ padding: "5px" }}>
+                        <CardMedia
+                          component="img"
+                          image={ele.thumbnail}
+                          sx={{
+                            width: "auto",
+                            height: "50px",
+                            minHeight: "50px",
+                            margin: "auto",
+                          }}
+                        />
+                      </Paper>
                     </td>
-                    <td>{ele.title}</td>
-                    <td>{ele.price}</td>
-                    {ele.color && <td>{ele.color}</td>}
-                    {ele.size && <td>{ele.size}</td>}
                     <td>
-                      <button
+                      <Typography variant="body1">{ele.title}</Typography>
+                    </td>
+                    {/* <td>{ele.price}</td> */}
+                    {ele.color && (
+                      <td>
+                        <CircleIcon style={{ color: `${ele.color}` }} />
+                      </td>
+                    )}
+                    {ele.size && (
+                      <Box
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        width={40}
+                        height={40}
+                        border="solid 2px rgba(0,0,0,0.5)"
+                        borderRadius="50%"
+                      >
+                        <Typography variant="body1">{ele.size}</Typography>
+                      </Box>
+                    )}
+                    <td>
+                      <IconButton
                         disabled={ele.quantity == 1}
                         onClick={() => {
                           decrementQuantity(ele.cartItemId);
                         }}
                       >
-                        -
-                      </button>
-                      {ele.quantity}
-                      <button
+                        <RemoveIcon />
+                      </IconButton>
+                      <Box
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        width={40}
+                        height={40}
+                        border="solid 2px rgba(0,0,0,0.5)"
+                        borderRadius="10%"
+                      >
+                        <Typography variant="body1">{ele.quantity}</Typography>
+                      </Box>
+
+                      <IconButton
                         disabled={ele.quantity == ele.stock}
                         onClick={() => {
                           incrementQuantity(ele.cartItemId);
                         }}
                       >
-                        +
-                      </button>
+                        <AddIcon />
+                      </IconButton>
                     </td>
-                    <td>{ele.quantity * ele.price}</td>
                     <td>
-                      <button
+                      <Typography variant="h6">
+                        ${Math.round(ele.quantity * ele.price * 100) / 100}
+                      </Typography>
+                    </td>
+                    <td>
+                      <IconButton
                         onClick={() => {
                           removeFromCart(ele.cartItemId);
                         }}
                       >
-                        Remove
-                      </button>
+                        <DeleteIcon color="warning" />
+                      </IconButton>
                     </td>
                     <td>
-                      <button>Buy</button>
+                      <Button>Buy</Button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <hr />
-            <h1>
-              Total amount : {total_amount} <button>Buy all</button>
-            </h1>
           </div>
         )}
       </DialogContent>
       <DialogActions>
+        <Button color="success">Checkout</Button>
+        <Button
+          color="warning"
+          disabled={cart.length == 0}
+          onClick={() => {
+            clearCart();
+          }}
+        >
+          Clear All
+        </Button>
         <Button onClick={closeCart} autoFocus>
           Close
         </Button>
