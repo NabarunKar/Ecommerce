@@ -37,9 +37,6 @@ function App() {
           <SignUp />
         </Route>
         <Route path="/profile">{user && <Profile />}</Route>
-        {/* <Route path="/cart">
-          <Cart />
-        </Route> */}
       </Switch>
     </Router>
   );

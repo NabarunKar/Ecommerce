@@ -28,8 +28,13 @@ function ProductCard(props) {
         <CardMedia
           component="img"
           alt={data.title}
-          height="200"
           image={data.thumbnail}
+          sx={{
+            width: "auto",
+            height: "200px",
+            minHeight: "200px",
+            margin: "auto",
+          }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
@@ -43,9 +48,9 @@ function ProductCard(props) {
           <IconButton aria-label="add to favorites">
             <FavoriteIcon />
           </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton>
+          <IconButton aria-label="share">
+            <ShareIcon />
+          </IconButton>
         </CardActions>
         {/* <Link to={`/products/${data._id}`}>
         <h2>{data.title}</h2>
