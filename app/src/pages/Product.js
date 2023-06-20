@@ -12,7 +12,20 @@ import Reviews from "../components/Reviews";
 import { useAuthContext } from "../hooks/useAuthContext";
 import ReviewForm from "../components/ReviewForm";
 import BackButton from "../components/BackButton";
-import { Box, Button, CardMedia, Container, Grid, Paper } from "@mui/material";
+import CircleIcon from "@mui/icons-material/Circle";
+import {
+  Box,
+  Button,
+  CardMedia,
+  Container,
+  Divider,
+  Grid,
+  IconButton,
+  Paper,
+  Typography,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 function Product() {
   const { id } = useParams();
@@ -39,13 +52,13 @@ function Product() {
   return (
     <>
       <BackButton />
-      <Container>
+      <Container sx={{ mt: 5 }}>
         <Grid container spacing={{ xs: 2, md: 3 }}>
           {error && <div>{error}</div>}
           {isPending && <div>Loading...</div>}
           {data && (
             <>
-              <Grid item md={6}>
+              <Grid item md={6} order={{ xs: 2, md: 1 }}>
                 <Box>
                   <Paper variant="outlined" sx={{ padding: "5px" }}>
                     <CardMedia
@@ -81,102 +94,152 @@ function Product() {
                   </Button>
                 ))}
               </Grid>
-              <Grid item md={6}>
+              <Grid item md={6} order={{ xs: 1, md: 2 }}>
                 <Container>
-                  {color && (
-                    <h3>
-                      Your chosen color is
-                      <button
-                        style={{
-                          background: `${color}`,
-                          width: "50px",
-                          height: "50px",
-                        }}
-                      ></button>
-                    </h3>
-                  )}
-                  {size && <h3>Your chosen size is {size}</h3>}
-                  {data.stock > 0 && (
-                    <>
-                      <button
-                        disabled={quantity == 1}
-                        onClick={() => decreaseQuantity()}
+                  {/* <img src={data.thumbnail} alt="" /> */}
+                  <Typography variant="h4">{data.title}</Typography>
+                  <Typography variant="h4">
+                    ${data.price}{" "}
+                    {color && <CircleIcon style={{ color: `${color}` }} />}{" "}
+                    {size && (
+                      <Box
+                        display="inline-flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        width={40}
+                        height={40}
+                        border="solid 2px rgba(0,0,0,0.5)"
+                        borderRadius="50%"
                       >
-                        -
-                      </button>
-                      {quantity}
-                      <button
-                        disabled={quantity == data.stock}
-                        onClick={() => increaseQuantity(data.stock)}
-                      >
-                        +
-                      </button>
-                      <br />
-                      <button
-                        onClick={() => {
-                          addToCart({
-                            productId: data._id,
-                            thumbnail: data.thumbnail,
-                            title: data.title,
-                            price: data.price,
-                            quantity: quantity,
-                            color: color,
-                            size: size,
-                          });
-                        }}
+                        <Typography variant="body1">{size}</Typography>
+                      </Box>
+                    )}
+                  </Typography>
+                  {/* <h3>Price: ${data.price}</h3> */}
+
+                  <Container sx={{ mt: 2 }}>
+                    {data.colors.length > 0 && (
+                      <>
+                        <Typography
+                          variant="h5"
+                          sx={{ color: "rgba(0,0,0,0.5)", display: "inline" }}
+                        >
+                          Colors
+                        </Typography>
+                        {data.colors.map((ele) => (
+                          <IconButton onClick={() => setColor(ele)}>
+                            <CircleIcon style={{ color: `${ele}` }} />
+                          </IconButton>
+                        ))}
+                      </>
+                    )}
+                  </Container>
+                  <Container>
+                    {data.sizes.length > 0 && (
+                      <>
+                        <Typography
+                          variant="h5"
+                          sx={{ color: "rgba(0,0,0,0.5)", display: "inline" }}
+                        >
+                          Sizes
+                        </Typography>
+                        {data.sizes.map((ele) => (
+                          <IconButton onClick={() => setSize(ele)}>
+                            <Box
+                              display="inline-flex"
+                              justifyContent="center"
+                              alignItems="center"
+                              width={40}
+                              height={40}
+                              border="solid 2px rgba(0,0,0,0.5)"
+                              borderRadius="50%"
+                            >
+                              <Typography variant="body1">{ele}</Typography>
+                            </Box>
+                          </IconButton>
+                        ))}
+                      </>
+                    )}
+                  </Container>
+                  <Divider sx={{ mt: 2 }} />
+                  <Container sx={{ my: 2 }}>
+                    {data.stock > 0 && (
+                      <>
+                        <IconButton
+                          disabled={quantity == 1}
+                          onClick={() => decreaseQuantity()}
+                        >
+                          <RemoveIcon />
+                        </IconButton>
+                        <Box
+                          display="inline-flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          width={40}
+                          height={40}
+                          border="solid 2px rgba(0,0,0,0.5)"
+                          borderRadius="50%"
+                        >
+                          <Typography variant="body1">{quantity}</Typography>
+                        </Box>
+                        <IconButton
+                          disabled={quantity == data.stock}
+                          onClick={() => increaseQuantity(data.stock)}
+                        >
+                          <AddIcon />
+                        </IconButton>
+
+                        <Button
+                          disableElevation
+                          variant="text"
+                          color="secondary"
+                          onClick={() => {
+                            addToCart({
+                              productId: data._id,
+                              thumbnail: data.thumbnail,
+                              title: data.title,
+                              price: data.price,
+                              quantity: quantity,
+                              color: color,
+                              size: size,
+                            });
+                          }}
+                          disabled={
+                            (data.colors.length > 0 && !color) ||
+                            (data.sizes.length > 0 && !size)
+                          }
+                        >
+                          Add to cart
+                        </Button>
+                      </>
+                    )}
+                  </Container>
+                  <Container sx={{ mb: 2 }}>
+                    {data.stock > 0 ? (
+                      <Button
+                        fullWidth
+                        disableElevation
+                        variant="contained"
+                        color="secondary"
+                        size="large"
                         disabled={
                           (data.colors.length > 0 && !color) ||
                           (data.sizes.length > 0 && !size)
                         }
                       >
-                        Add to cart
-                      </button>
-                    </>
-                  )}
-                  {data.colors &&
-                    data.colors.map((ele) => (
-                      <li key={ele}>
-                        <button
-                          style={{
-                            background: `${ele}`,
-                            width: "50px",
-                            height: "50px",
-                            borderRadius: "50%",
-                          }}
-                          onClick={() => setColor(ele)}
-                        ></button>
-                      </li>
-                    ))}
-                  {data.sizes &&
-                    data.sizes.map((ele) => (
-                      <li key={ele}>
-                        <button
-                          style={{
-                            width: "50px",
-                            height: "50px",
-                            padding: "5px",
-                          }}
-                          onClick={() => setSize(ele)}
-                        >
-                          {ele}
-                        </button>
-                      </li>
-                    ))}
-
-                  <br />
-                  {/* <img src={data.thumbnail} alt="" /> */}
-                  <h1>{data.title}</h1>
-                  <h3>Price: ${data.price}</h3>
-                  {data.stock > 0 ? (
-                    <button>Buy</button>
-                  ) : (
-                    <h2>Out of stock</h2>
-                  )}
+                        Buy
+                      </Button>
+                    ) : (
+                      <h2>Out of stock</h2>
+                    )}
+                  </Container>
                   <p>{data.description}</p>
                 </Container>
               </Grid>
-              <Grid md={12}>{user && <ReviewForm id={id} />}</Grid>
-              <Grid md={12}>All reviews</Grid>
+              {/* <Grid md={12} order={{ xs: 3 }}>
+                {user && <ReviewForm id={id} />}
+              </Grid> */}
+              {/* <Grid md={12}>All reviews</Grid> */}
             </>
           )}
         </Grid>
