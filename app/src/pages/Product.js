@@ -12,23 +12,21 @@ import Reviews from "../components/Reviews";
 import { useAuthContext } from "../hooks/useAuthContext";
 import ReviewForm from "../components/ReviewForm";
 import BackButton from "../components/BackButton";
+import { Box, Button, CardMedia, Container, Grid, Paper } from "@mui/material";
 
 function Product() {
   const { id } = useParams();
-  const { path, url } = useRouteMatch();
 
   const { user } = useAuthContext();
 
   const [data, isPending, error] = UseFetch(`/api/products/${id}`);
-  const [reviewData, reviewIsPending, reviewDataError] = UseFetch(
-    `/api/products/reviews/${id}`
-  );
 
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState(null);
   const [size, setSize] = useState(null);
+  const [imgArrayIndex, setImgArrayIndex] = useState(0);
 
-  const { addToCart, cart } = useCartContext();
+  const { addToCart } = useCartContext();
 
   const decreaseQuantity = () => {
     quantity > 1 ? setQuantity(quantity - 1) : setQuantity(1);
@@ -39,152 +37,151 @@ function Product() {
   };
 
   return (
-    <div>
+    <>
       <BackButton />
-      {error && <div>{error}</div>}
-      {isPending && <div>Loading...</div>}
-      {data && (
-        <>
-          <div>
-            {color && (
-              <h3>
-                Your chosen color is
-                <button
-                  style={{
-                    background: `${color}`,
-                    width: "50px",
-                    height: "50px",
-                  }}
-                ></button>
-              </h3>
-            )}
-            {size && <h3>Your chosen size is {size}</h3>}
-            {data.stock > 0 && (
-              <>
-                <button
-                  disabled={quantity == 1}
-                  onClick={() => decreaseQuantity()}
-                >
-                  -
-                </button>
-                {quantity}
-                <button
-                  disabled={quantity == data.stock}
-                  onClick={() => increaseQuantity(data.stock)}
-                >
-                  +
-                </button>
-                <br />
-                <button
-                  onClick={() => {
-                    addToCart({
-                      productId: data._id,
-                      thumbnail: data.thumbnail,
-                      title: data.title,
-                      price: data.price,
-                      quantity: quantity,
-                      color: color,
-                      size: size,
-                    });
-                  }}
-                  disabled={
-                    (data.colors.length > 0 && !color) ||
-                    (data.sizes.length > 0 && !size)
-                  }
-                >
-                  Add to cart
-                </button>
-              </>
-            )}
-            {data.colors &&
-              data.colors.map((ele) => (
-                <li key={ele}>
-                  <button
-                    style={{
-                      background: `${ele}`,
-                      width: "50px",
-                      height: "50px",
-                      borderRadius: "50%",
-                    }}
-                    onClick={() => setColor(ele)}
-                  ></button>
-                </li>
-              ))}
-            {data.sizes &&
-              data.sizes.map((ele) => (
-                <li key={ele}>
-                  <button
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      padding: "5px",
-                    }}
-                    onClick={() => setSize(ele)}
-                  >
-                    {ele}
-                  </button>
-                </li>
-              ))}
-
-            <br />
-            <img src={data.thumbnail} alt="" />
-            <h1>{data.title}</h1>
-            <h3>Price: ${data.price}</h3>
-            {data.stock > 0 ? <button>Buy</button> : <h2>Out of stock</h2>}
-            <p>{data.description}</p>
-            {data.images.map((e, id) => (
-              <li key={id}>
-                <img src={e} alt="" />
-              </li>
-            ))}
-          </div>
-          <div>{user && <ReviewForm id={id} />}</div>
-          <div>
-            <nav>
-              <ul>
-                <li>
-                  <Link to={`${url}/all-reviews`}>
-                    All Reviews ({reviewData && reviewData.length})
-                  </Link>
-                </li>
-                {user && (
-                  <li>
-                    <Link to={`${url}/my-reviews`}>
-                      My Reviews (
-                      {reviewData &&
-                        user &&
-                        reviewData.filter((e) => e.userId === user._id).length}
-                      )
-                    </Link>
-                  </li>
-                )}
-              </ul>
-            </nav>
-
-            {/* Nested routes for reviews */}
-            {reviewDataError && <div>{reviewDataError}</div>}
-            {reviewIsPending && <div>Loading...</div>}
-            {reviewData && (
-              <Switch>
-                <Route path={`${path}/all-reviews`}>
-                  <Reviews data={reviewData} />
-                </Route>
-                <Route path={`${path}/my-reviews`}>
-                  {user && (
-                    <Reviews
-                      data={reviewData.filter((e) => e.userId === user._id)}
+      <Container>
+        <Grid container spacing={{ xs: 2, md: 3 }}>
+          {error && <div>{error}</div>}
+          {isPending && <div>Loading...</div>}
+          {data && (
+            <>
+              <Grid item md={6}>
+                <Box>
+                  <Paper variant="outlined" sx={{ padding: "5px" }}>
+                    <CardMedia
+                      component="img"
+                      image={data.images[imgArrayIndex]}
+                      sx={{
+                        width: "auto",
+                        height: "400px",
+                        minHeight: "50px",
+                        margin: "auto",
+                      }}
                     />
+                  </Paper>
+                </Box>
+                {data.images.map((e, id) => (
+                  <Button
+                    onClick={() => {
+                      setImgArrayIndex(id);
+                    }}
+                  >
+                    <Paper variant="outlined" sx={{ padding: "5px" }}>
+                      <CardMedia
+                        component="img"
+                        image={e}
+                        sx={{
+                          width: "auto",
+                          height: "50px",
+                          minHeight: "50px",
+                          margin: "auto",
+                        }}
+                      />
+                    </Paper>
+                  </Button>
+                ))}
+              </Grid>
+              <Grid item md={6}>
+                <Container>
+                  {color && (
+                    <h3>
+                      Your chosen color is
+                      <button
+                        style={{
+                          background: `${color}`,
+                          width: "50px",
+                          height: "50px",
+                        }}
+                      ></button>
+                    </h3>
                   )}
-                </Route>
-                <Route>
-                  <Reviews data={reviewData} />
-                </Route>
-              </Switch>
-            )}
-          </div>
-        </>
-      )}
-    </div>
+                  {size && <h3>Your chosen size is {size}</h3>}
+                  {data.stock > 0 && (
+                    <>
+                      <button
+                        disabled={quantity == 1}
+                        onClick={() => decreaseQuantity()}
+                      >
+                        -
+                      </button>
+                      {quantity}
+                      <button
+                        disabled={quantity == data.stock}
+                        onClick={() => increaseQuantity(data.stock)}
+                      >
+                        +
+                      </button>
+                      <br />
+                      <button
+                        onClick={() => {
+                          addToCart({
+                            productId: data._id,
+                            thumbnail: data.thumbnail,
+                            title: data.title,
+                            price: data.price,
+                            quantity: quantity,
+                            color: color,
+                            size: size,
+                          });
+                        }}
+                        disabled={
+                          (data.colors.length > 0 && !color) ||
+                          (data.sizes.length > 0 && !size)
+                        }
+                      >
+                        Add to cart
+                      </button>
+                    </>
+                  )}
+                  {data.colors &&
+                    data.colors.map((ele) => (
+                      <li key={ele}>
+                        <button
+                          style={{
+                            background: `${ele}`,
+                            width: "50px",
+                            height: "50px",
+                            borderRadius: "50%",
+                          }}
+                          onClick={() => setColor(ele)}
+                        ></button>
+                      </li>
+                    ))}
+                  {data.sizes &&
+                    data.sizes.map((ele) => (
+                      <li key={ele}>
+                        <button
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                            padding: "5px",
+                          }}
+                          onClick={() => setSize(ele)}
+                        >
+                          {ele}
+                        </button>
+                      </li>
+                    ))}
+
+                  <br />
+                  {/* <img src={data.thumbnail} alt="" /> */}
+                  <h1>{data.title}</h1>
+                  <h3>Price: ${data.price}</h3>
+                  {data.stock > 0 ? (
+                    <button>Buy</button>
+                  ) : (
+                    <h2>Out of stock</h2>
+                  )}
+                  <p>{data.description}</p>
+                </Container>
+              </Grid>
+              <Grid md={12}>{user && <ReviewForm id={id} />}</Grid>
+              <Grid md={12}>All reviews</Grid>
+            </>
+          )}
+        </Grid>
+      </Container>
+    </>
   );
 }
 

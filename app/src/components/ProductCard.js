@@ -40,9 +40,7 @@ function ProductCard(props) {
           <Typography gutterBottom variant="h5" component="div">
             ${data.price}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {data.description.slice(0, 120)} ...
-          </Typography>
+          <Typography noWrap>{data.description}</Typography>
         </CardContent>
         <CardActions>
           <IconButton aria-label="add to favorites">

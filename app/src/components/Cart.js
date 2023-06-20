@@ -150,7 +150,9 @@ function Cart() {
         )}
       </DialogContent>
       <DialogActions>
-        <Button color="success">Checkout</Button>
+        <Button color="success" disabled={cart.length == 0}>
+          Checkout
+        </Button>
         <Button
           color="warning"
           disabled={cart.length == 0}

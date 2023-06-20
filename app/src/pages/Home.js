@@ -1,11 +1,11 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 
 function Home() {
-  
   return (
     <div>
-     Home
+      Home
+      <Link to="/products">Browse</Link>
     </div>
   );
 }
