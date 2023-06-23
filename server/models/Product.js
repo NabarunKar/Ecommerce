@@ -67,8 +67,11 @@ const productSchema = new mongoose.Schema(
         text: {
           type: String,
         },
+        updatedAt: {
+          type: Date,
+          default: Date.now(),
+        },
       },
-      { timestamps: true },
     ],
   },
   { timestamps: true }

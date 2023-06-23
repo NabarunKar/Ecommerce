@@ -9,7 +9,9 @@ const requireAuth = async (req, res, next) => {
   const token = authorization.split(" ")[1];
   try {
     const { _id } = jwt.verify(token, process.env.SECRET);
-    req.authUserId = await User.findOne({ _id }).select("_id");
+    let user = await User.findOne({ _id });
+    if (user) req.authUserId = user._id;
+    else throw Error("User doesn't exist");
     next();
   } catch (err) {
     return res.status(403).json({ message: err.message });

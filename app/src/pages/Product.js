@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import UseFetch from "../hooks/useFetch";
 import { useCartContext } from "../contexts/CartContext";
-import Reviews from "../components/Reviews";
 import { useAuthContext } from "../hooks/useAuthContext";
 import ReviewForm from "../components/ReviewForm";
 import BackButton from "../components/BackButton";
@@ -17,6 +16,7 @@ import {
   Box,
   Button,
   CardMedia,
+  CircularProgress,
   Container,
   Divider,
   Grid,
@@ -55,7 +55,11 @@ function Product() {
       <Container sx={{ mt: 5 }}>
         <Grid container spacing={{ xs: 2, md: 3 }}>
           {error && <div>{error}</div>}
-          {isPending && <div>Loading...</div>}
+          {isPending && (
+            <Box sx={{ display: "flex", margin: "auto" }}>
+              <CircularProgress />
+            </Box>
+          )}
           {data && (
             <>
               <Grid item md={6} order={{ xs: 2, md: 1 }}>
