@@ -8,7 +8,7 @@ async function addOrUpdateReview(req, res) {
     // Find the product by its ID
     const product = await Product.findById(productId);
 
-    if (userId != req.authUserId) {
+    if (userId !== req.authUserId.toString()) {
       return res.status(401).json({
         error: "UserId and token doesn't match",
       });
@@ -45,34 +45,24 @@ async function addOrUpdateReview(req, res) {
 const deleteReviewByUserId = async (req, res) => {
   try {
     // Find the product by ID
-    const product = await Product.findById(req.params.productId);
+    const product = await Product.findById(req.params.id);
 
     if (!product) {
       // Handle case where product is not found
-      return { success: false, message: "Product not found." };
+      throw Error("Product not found.");
     }
 
-    // Find the index of the review with the given userId
-    const reviewIndex = product.reviews.findIndex(
-      (review) => review.userId === req.authUserId
+    product.reviews = product.reviews.filter(
+      (review) => review.userId.toString() !== req.authUserId.toString()
     );
-
-    if (reviewIndex === -1) {
-      // Handle case where review with userId is not found
-      return { success: false, message: "Review not found with given userId" };
-    }
-
-    // Remove the review from the array
-    product.reviews.splice(reviewIndex, 1);
 
     // Save the updated product
     await product.save();
 
-    return { success: true, message: "Review deleted successfully." };
+    return res.json(product);
   } catch (err) {
     // Handle any errors that occur
     return {
-      success: false,
       message: err.message,
     };
   }
