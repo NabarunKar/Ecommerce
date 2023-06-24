@@ -1,18 +1,13 @@
 const Product = require("../models/Product");
+const User = require("../models/User");
 
 async function addOrUpdateReview(req, res) {
   const productId = req.params.id;
-  const { userId, rating, text } = req.body;
+  const { rating, text } = req.body;
 
   try {
     // Find the product by its ID
     const product = await Product.findById(productId);
-
-    if (userId !== req.authUserId.toString()) {
-      return res.status(401).json({
-        error: "UserId and token doesn't match",
-      });
-    }
 
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
@@ -20,7 +15,7 @@ async function addOrUpdateReview(req, res) {
 
     // Check if the user's review already exists in the product's reviews array
     const existingReview = product.reviews.find(
-      (review) => review.userId == userId
+      (review) => review.userId == req.authUserId
     );
 
     if (existingReview) {
@@ -29,8 +24,11 @@ async function addOrUpdateReview(req, res) {
       existingReview.text = text;
       existingReview.updatedAt = Date.now();
     } else {
+      let user = await User.findById(req.authUserId);
+      let userName = user.name;
+      let userId = user._id;
       // Add a new review to the reviews array
-      product.reviews.push({ userId, rating, text });
+      product.reviews.push({ userId, userName, rating, text });
     }
 
     // Save the updated product

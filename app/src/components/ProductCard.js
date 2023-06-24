@@ -6,6 +6,7 @@ import {
   CardMedia,
   Grid,
   IconButton,
+  Rating,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -40,6 +41,17 @@ function ProductCard(props) {
           <Typography gutterBottom variant="h5" component="div">
             ${data.price}
           </Typography>
+          {data.reviews.length > 0 && (
+            <Rating
+              name="read-only"
+              value={
+                data.reviews.reduce((acc, ele) => acc + ele.rating, 0) /
+                data.reviews.length
+              }
+              precision={0.1}
+              readOnly
+            />
+          )}
           <Typography noWrap>{data.description}</Typography>
         </CardContent>
         <CardActions>

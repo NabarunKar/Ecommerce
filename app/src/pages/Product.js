@@ -15,6 +15,9 @@ import CircleIcon from "@mui/icons-material/Circle";
 import {
   Box,
   Button,
+  Card,
+  CardContent,
+  CardHeader,
   CardMedia,
   CircularProgress,
   Container,
@@ -22,6 +25,7 @@ import {
   Grid,
   IconButton,
   Paper,
+  Rating,
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -48,6 +52,17 @@ function Product() {
   const increaseQuantity = (stock) => {
     quantity < stock ? setQuantity(quantity + 1) : setQuantity(stock);
   };
+
+  function formatAMPM(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? "pm" : "am";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    var strTime = hours + ":" + minutes + " " + ampm;
+    return strTime;
+  }
 
   return (
     <>
@@ -243,7 +258,49 @@ function Product() {
               {/* <Grid md={12} order={{ xs: 3 }}>
                 {user && <ReviewForm id={id} />}
               </Grid> */}
-              {/* <Grid md={12}>All reviews</Grid> */}
+              <Grid item md={12} order={{ xs: 4 }}>
+                <Container>
+                  <Typography variant="h2" sx={{ my: 2 }}>
+                    All reviews ({data.reviews.length})
+                  </Typography>
+                  <Divider />
+                  <Container sx={{ my: 2 }}>
+                    <Box sx={{ minWidth: 275 }}>
+                      {data.reviews.map((ele) => (
+                        <Card variant="outlined" sx={{ my: 2 }}>
+                          <CardContent>
+                            <Box display="flex" justifyContent="space-between">
+                              <Typography
+                                sx={{ display: "inline-flex" }}
+                                color="text.secondary"
+                                gutterBottom
+                              >
+                                {ele.userName} ({ele.userId})
+                              </Typography>
+                              <Typography
+                                sx={{ display: "inline" }}
+                                gutterBottom
+                              >
+                                {new Date(ele.updatedAt).toLocaleDateString(
+                                  "en-GB"
+                                )}{" "}
+                                {formatAMPM(new Date(ele.updatedAt))}
+                              </Typography>
+                            </Box>
+                            <Rating
+                              name="read-only"
+                              value={ele.rating}
+                              readOnly
+                            />
+                            <Typography sx={{ mt: 2 }}>{ele.text}</Typography>
+                          </CardContent>
+                          {/* {JSON.stringify(ele)} */}
+                        </Card>
+                      ))}
+                    </Box>
+                  </Container>
+                </Container>
+              </Grid>
             </>
           )}
         </Grid>
