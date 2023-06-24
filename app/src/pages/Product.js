@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Link,
-  Route,
-  Switch,
-  useParams,
-  useRouteMatch,
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import UseFetch from "../hooks/useFetch";
 import { useCartContext } from "../contexts/CartContext";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -42,6 +36,17 @@ function Product() {
   const [color, setColor] = useState(null);
   const [size, setSize] = useState(null);
   const [imgArrayIndex, setImgArrayIndex] = useState(0);
+
+  // ReviewForm controls
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const { addToCart } = useCartContext();
 
@@ -255,9 +260,26 @@ function Product() {
                   <p>{data.description}</p>
                 </Container>
               </Grid>
-              {/* <Grid md={12} order={{ xs: 3 }}>
-                {user && <ReviewForm id={id} />}
-              </Grid> */}
+              <Grid md={12} order={{ xs: 3 }}>
+                {user && (
+                  <Container
+                    sx={{ my: 5, display: "flex", justifyContent: "center" }}
+                  >
+                    <Button
+                      variant="text"
+                      onClick={handleClickOpen}
+                      size="large"
+                    >
+                      Your review
+                    </Button>
+                    <ReviewForm
+                      open={open}
+                      handleClose={handleClose}
+                      data={data.reviews.find((ele) => ele.userId === user._id)}
+                    />
+                  </Container>
+                )}
+              </Grid>
               <Grid item md={12} order={{ xs: 4 }}>
                 <Container>
                   <Typography variant="h2" sx={{ my: 2 }}>
@@ -294,7 +316,6 @@ function Product() {
                             />
                             <Typography sx={{ mt: 2 }}>{ele.text}</Typography>
                           </CardContent>
-                          {/* {JSON.stringify(ele)} */}
                         </Card>
                       ))}
                     </Box>

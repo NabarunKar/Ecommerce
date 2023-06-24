@@ -62,11 +62,6 @@ function ProductCard(props) {
             <ShareIcon />
           </IconButton>
         </CardActions>
-        {/* <Link to={`/products/${data._id}`}>
-        <h2>{data.title}</h2>
-      </Link>
-      <h3>Price: ${data.price}</h3>
-      <img src={data.thumbnail} alt="" /> */}
       </Card>
     </Grid>
   );
