@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const usePost = (url) => {
+export const usePost = (url, token) => {
   const [isPending, setIsPending] = useState(null);
   const [error, setError] = useState(null);
 
@@ -12,6 +12,7 @@ export const usePost = (url) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(obj),
     });

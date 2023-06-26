@@ -119,7 +119,7 @@ function Navbar() {
                 <MenuItem onClick={handleClose}>
                   <Avatar />
                   <Link className="btn-link-dark" to="/profile">
-                    Profile
+                    {user.name}
                   </Link>
                 </MenuItem>
                 <Divider />

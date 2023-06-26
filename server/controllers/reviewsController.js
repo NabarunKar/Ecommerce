@@ -15,7 +15,7 @@ async function addOrUpdateReview(req, res) {
 
     // Check if the user's review already exists in the product's reviews array
     const existingReview = product.reviews.find(
-      (review) => review.userId == req.authUserId
+      (review) => review.userId.toString() === req.authUserId.toString()
     );
 
     if (existingReview) {

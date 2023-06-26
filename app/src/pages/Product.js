@@ -275,7 +275,13 @@ function Product() {
                     <ReviewForm
                       open={open}
                       handleClose={handleClose}
-                      data={data.reviews.find((ele) => ele.userId === user._id)}
+                      data={
+                        data.reviews.find((ele) => ele.userId === user._id) || {
+                          rating: null,
+                          content: "",
+                        }
+                      }
+                      productId={id}
                     />
                   </Container>
                 )}
