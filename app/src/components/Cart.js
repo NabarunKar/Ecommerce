@@ -4,10 +4,12 @@ import {
   Box,
   Button,
   CardMedia,
+  Container,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   IconButton,
   Paper,
   Typography,
@@ -47,20 +49,20 @@ function Cart() {
             <span>{total_item} Items</span>
             <span>${Math.round(total_amount * 100) / 100}</span>
           </Box>
-          // <>
-          //   {total_item} Items - ${total_amount}
-          // </>
         )}
       </DialogTitle>
       <DialogContent>
         {cart.length > 0 && (
-          <div>
-            <table>
-              <tbody>
-                {cart.map((ele) => (
-                  <tr key={ele.cartItemId}>
-                    <td>
-                      <Paper variant="outlined" sx={{ padding: "5px" }}>
+          <Container>
+            {cart.map((ele) => (
+              <Grid container sx={{ justifyContent: "space-between", my: 2 }}>
+                <Grid item xs={12} md={6}>
+                  <Grid container>
+                    <Grid item xs={2}>
+                      <Paper
+                        variant="outlined"
+                        sx={{ padding: "5px", display: "inline-flex" }}
+                      >
                         <CardMedia
                           component="img"
                           image={ele.thumbnail}
@@ -72,30 +74,41 @@ function Cart() {
                           }}
                         />
                       </Paper>
-                    </td>
-                    <td>
-                      <Typography variant="body1">{ele.title}</Typography>
-                    </td>
-                    {/* <td>{ele.price}</td> */}
-                    {ele.color && (
-                      <td>
-                        <CircleIcon style={{ color: `${ele.color}` }} />
-                      </td>
-                    )}
-                    {ele.size && (
-                      <Box
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center"
-                        width={40}
-                        height={40}
-                        border="solid 2px rgba(0,0,0,0.5)"
-                        borderRadius="50%"
-                      >
-                        <Typography variant="body1">{ele.size}</Typography>
-                      </Box>
-                    )}
-                    <td>
+                    </Grid>
+                    <Grid item xs={10} md={4}>
+                      <Typography variant="body1">
+                        {ele.title}{" "}
+                        {ele.color && (
+                          <CircleIcon
+                            style={{
+                              color: `${ele.color}`,
+                            }}
+                          />
+                        )}
+                        {ele.size && (
+                          <Box
+                            display="inline-flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            width={40}
+                            height={40}
+                            border="solid 2px rgba(0,0,0,0.5)"
+                            borderRadius="50%"
+                          >
+                            <Typography variant="body1">{ele.size}</Typography>
+                          </Box>
+                        )}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Grid
+                    container
+                    sx={{ justifyContent: "space-between", my: 2 }}
+                  >
+                    <Grid item>
                       <IconButton
                         disabled={ele.quantity == 1}
                         onClick={() => {
@@ -105,7 +118,7 @@ function Cart() {
                         <RemoveIcon />
                       </IconButton>
                       <Box
-                        display="flex"
+                        display="inline-flex"
                         justifyContent="center"
                         alignItems="center"
                         width={40}
@@ -124,13 +137,13 @@ function Cart() {
                       >
                         <AddIcon />
                       </IconButton>
-                    </td>
-                    <td>
+                    </Grid>
+                    <Grid item>
                       <Typography variant="h6">
                         ${Math.round(ele.quantity * ele.price * 100) / 100}
                       </Typography>
-                    </td>
-                    <td>
+                    </Grid>
+                    <Grid item>
                       <IconButton
                         onClick={() => {
                           removeFromCart(ele.cartItemId);
@@ -138,15 +151,21 @@ function Cart() {
                       >
                         <DeleteIcon color="warning" />
                       </IconButton>
-                    </td>
-                    <td>
-                      <Button>Buy</Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    </Grid>
+                    <Grid item>
+                      <Button
+                        variant="contained"
+                        disableElevation
+                        color="secondary"
+                      >
+                        Buy
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            ))}
+          </Container>
         )}
       </DialogContent>
       <DialogActions>
