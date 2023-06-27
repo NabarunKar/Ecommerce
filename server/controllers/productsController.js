@@ -53,6 +53,50 @@ async function deleteProduct(req, res) {
   }
 }
 
+// Add product to wishlist
+async function addToWishlist(req, res) {
+  const { productId } = req.body;
+  const user = await User.findById(req.authUserId);
+  const product = await Product.findById(productId);
+  try {
+    if (user) {
+      if (product) {
+        let existingProductId = user.wishlist.find(
+          (ele) => ele.productId.toString() === product._id.toString()
+        );
+        if (!existingProductId) {
+          user.wishlist.push({ productId: product._id });
+        }
+        await user.save();
+        res.json(user.wishlist);
+      } else {
+        throw Error("Product not found");
+      }
+    } else {
+      throw Error("Invalid user token");
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
+async function deleteFromWishlist(req, res) {
+  const user = await User.findById(req.authUserId);
+  try {
+    if (user) {
+      user.wishlist = user.wishlist.filter(
+        (ele) => ele.productId.toString() === res.product._id.toString()
+      );
+      await user.save();
+      res.json(user.wishlist);
+    } else {
+      throw Error("Invalid token");
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
 // Middleware function to get a product by ID
 async function getProductById(req, res, next) {
   let product;
@@ -75,4 +119,6 @@ module.exports = {
   updateProduct,
   deleteProduct,
   getProductById,
+  addToWishlist,
+  deleteFromWishlist,
 };

@@ -28,8 +28,11 @@ const userSchema = new mongoose.Schema(
           ref: "Product",
           required: true,
         },
+        createdAt: {
+          type: Date,
+          default: Date.now(),
+        },
       },
-      { timestamps: true },
     ],
   },
   { timestamps: true }

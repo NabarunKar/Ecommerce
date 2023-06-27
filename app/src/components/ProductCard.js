@@ -13,8 +13,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 function ProductCard(props) {
+  const { user } = useAuthContext();
   let data = props.data;
   return (
     <Grid item key={data._id}>
@@ -55,9 +57,11 @@ function ProductCard(props) {
           <Typography noWrap>{data.description}</Typography>
         </CardContent>
         <CardActions>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
+          {user && (
+            <IconButton aria-label="add to favorites">
+              <FavoriteIcon />
+            </IconButton>
+          )}
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
