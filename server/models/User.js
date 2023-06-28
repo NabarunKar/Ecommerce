@@ -21,19 +21,6 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    wishlist: [
-      {
-        productId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
-          required: true,
-        },
-        createdAt: {
-          type: Date,
-          default: Date.now(),
-        },
-      },
-    ],
   },
   { timestamps: true }
 );

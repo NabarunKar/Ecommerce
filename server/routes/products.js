@@ -4,10 +4,6 @@ const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");
 const requireUserRole = require("../middleware/requireUserRole");
 
-// Add wishlist routes
-const wishlistRoutes = require("./wishlists");
-router.use("/wishlists", wishlistRoutes);
-
 // GET all products
 router.get("/", productsController.getAllProducts);
 
