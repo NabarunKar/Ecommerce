@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
+import { useFilterContext } from "../contexts/FilterContext";
 
 function Filter() {
-  return (
-    <div>Filter</div>
-  )
+  const { filteredProducts } = useFilterContext();
+  return <div>{JSON.stringify(filteredProducts)}</div>;
 }
 
 export default Filter;
