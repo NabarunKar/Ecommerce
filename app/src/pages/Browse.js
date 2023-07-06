@@ -4,18 +4,20 @@ import { useProductContext } from "../contexts/ProductContext";
 import ProductCard from "../components/ProductCard";
 import BackButton from "../components/BackButton";
 import { Box, Container, Grid } from "@mui/material";
+import { useFilterContext } from "../contexts/FilterContext";
 
 function Browse() {
-  const { isLoading, error, products } = useProductContext();
+  const { isLoading, error } = useProductContext();
+  const { sortedProducts } = useFilterContext();
   return (
     <Container>
       <BackButton />
       <Filter />
       {error && <div>{error}</div>}
       {isLoading && <div>Loading...</div>}
-      {products && (
+      {sortedProducts && (
         <div>
-          <h1>Total: {products.length}</h1>
+          {!isLoading && <h1>Total: {sortedProducts.length}</h1>}
           <Box sx={{ flexGrow: 1 }}>
             <Grid
               Grid
@@ -23,7 +25,7 @@ function Browse() {
               spacing={{ xs: 2, md: 3 }}
               // columns={{ xs: 4, sm: 8, md: 12 }}
             >
-              {products.map((p) => (
+              {sortedProducts.map((p) => (
                 <ProductCard data={p}></ProductCard>
               ))}
             </Grid>
