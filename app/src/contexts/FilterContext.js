@@ -5,7 +5,6 @@ const { createContext, useContext, useReducer, useEffect } = require("react");
 const FilterContext = createContext();
 
 const initialState = {
-  sortedProducts: null,
   filteredProducts: null,
   allProducts: null,
 };
@@ -17,7 +16,6 @@ const reducer = (state, action) => {
         ...state,
         allProducts: [...action.payload],
         filteredProducts: [...action.payload],
-        sortedProducts: [...action.payload],
       };
     default:
       return state;

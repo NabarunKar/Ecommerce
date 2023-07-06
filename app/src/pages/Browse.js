@@ -8,16 +8,16 @@ import { useFilterContext } from "../contexts/FilterContext";
 
 function Browse() {
   const { isLoading, error } = useProductContext();
-  const { sortedProducts } = useFilterContext();
+  const { filteredProducts } = useFilterContext();
   return (
     <Container>
       <BackButton />
       <Filter />
       {error && <div>{error}</div>}
       {isLoading && <div>Loading...</div>}
-      {sortedProducts && (
+      {filteredProducts && (
         <div>
-          {!isLoading && <h1>Total: {sortedProducts.length}</h1>}
+          {!isLoading && <h1>Total: {filteredProducts.length}</h1>}
           <Box sx={{ flexGrow: 1 }}>
             <Grid
               Grid
@@ -25,7 +25,7 @@ function Browse() {
               spacing={{ xs: 2, md: 3 }}
               // columns={{ xs: 4, sm: 8, md: 12 }}
             >
-              {sortedProducts.map((p) => (
+              {filteredProducts.map((p) => (
                 <ProductCard data={p}></ProductCard>
               ))}
             </Grid>

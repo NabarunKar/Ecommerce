@@ -11,20 +11,12 @@ function Filter() {
   return (
     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
       <InputLabel>Sort</InputLabel>
-      <Select
-        defaultValue={10}
-        inputProps={{
-          name: "sortValue",
-        }}
-        onChange={handleChange}
-        label="Sort"
-      >
-        <MenuItem value={10}>Default</MenuItem>
-        <MenuItem value={20}>Price (Low - High)</MenuItem>
-        <MenuItem value={30}>Price (High - Low)</MenuItem>
-        <MenuItem value={40}>A-Z</MenuItem>
-        <MenuItem value={50}>Z-A</MenuItem>
-        <MenuItem value={60}>Most Recent</MenuItem>
+      <Select value={sortValue} onChange={handleChange} label="Sort">
+        <MenuItem value={10}>Price (Low - High)</MenuItem>
+        <MenuItem value={20}>Price (High - Low)</MenuItem>
+        <MenuItem value={30}>A-Z</MenuItem>
+        <MenuItem value={40}>Z-A</MenuItem>
+        <MenuItem value={50}>Most Recent</MenuItem>
       </Select>
     </FormControl>
   );
