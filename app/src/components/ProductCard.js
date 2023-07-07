@@ -15,7 +15,7 @@ function ProductCard(props) {
   return (
     <Grid item key={data._id}>
       <Card
-        sx={{ maxWidth: 345 }}
+        sx={{ maxWidth: 345}}
         elevation={0}
         style={{ border: "1px solid", borderColor: "rgba(0,0,0,0.2)" }}
       >

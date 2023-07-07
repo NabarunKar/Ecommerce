@@ -47,7 +47,7 @@ function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" elevation={0} color="transparent">
+      <AppBar position="fixed" elevation={0} color="transparent">
         <Toolbar>
           {location.pathname !== "/" && <BackButton />}
           <IconButton
@@ -145,6 +145,7 @@ function Navbar() {
           )}
         </Toolbar>
       </AppBar>
+      <Toolbar />
     </Box>
   );
 }

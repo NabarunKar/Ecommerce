@@ -3,7 +3,7 @@ import Filter from "../components/Filter";
 import { useProductContext } from "../contexts/ProductContext";
 import ProductCard from "../components/ProductCard";
 import BackButton from "../components/BackButton";
-import { Box, Container, Grid } from "@mui/material";
+import { AppBar, Box, Container, Grid, Toolbar } from "@mui/material";
 import { useFilterContext } from "../contexts/FilterContext";
 
 function Browse() {
@@ -12,6 +12,7 @@ function Browse() {
   return (
     <Container>
       <Filter />
+      <Container sx={{ position: "fixed" }}></Container>
       {error && <div>{error}</div>}
       {isLoading && <div>Loading...</div>}
       {filteredProducts && (
@@ -23,10 +24,12 @@ function Browse() {
           )}
           <Box sx={{ flexGrow: 1 }}>
             <Grid
-              Grid
               container
               spacing={{ xs: 2, md: 3 }}
-              // columns={{ xs: 4, sm: 8, md: 12 }}
+              sx={{
+                justifyContent: "center",
+                mb: 10,
+              }}
             >
               {filteredProducts.map((p) => (
                 <ProductCard data={p}></ProductCard>
