@@ -8,6 +8,7 @@ const initialState = {
   filteredProducts: null,
   allProducts: null,
   sortOption: "asc",
+  searchValue: "",
 };
 
 const reducer = (state, action) => {
@@ -54,6 +55,11 @@ const reducer = (state, action) => {
         ...state,
         filteredProducts: sortedProducts,
       };
+    case "SET_SEARCH_VALUE":
+      return {
+        ...state,
+        searchValue: action.payload,
+      };
     default:
       return state;
   }
@@ -69,6 +75,10 @@ export const FilterProvider = ({ children }) => {
     dispatch({ type: "SORT_OPTION", payload: value });
   };
 
+  const setSearchValue = (value) => {
+    dispatch({ type: "SET_SEARCH_VALUE", payload: value });
+  };
+
   useEffect(() => {
     dispatch({ type: "INIT", payload: products || [] });
   }, [products]);
@@ -78,7 +88,7 @@ export const FilterProvider = ({ children }) => {
   }, [state.sortOption]);
 
   return (
-    <FilterContext.Provider value={{ ...state, sort }}>
+    <FilterContext.Provider value={{ ...state, sort, setSearchValue }}>
       {children}
     </FilterContext.Provider>
   );

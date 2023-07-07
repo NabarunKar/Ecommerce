@@ -16,7 +16,7 @@ import {
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 function Filter() {
-  const { sort } = useFilterContext();
+  const { sort, searchValue, setSearchValue } = useFilterContext();
 
   const [sortValue, setSortValue] = useState("");
 
@@ -30,7 +30,15 @@ function Filter() {
     <Container sx={{ mt: 2 }}>
       <Grid container>
         <Grid item xs={12} md={6} lg={8} sx={{ margin: "auto" }}>
-          <TextField label="Search Products" variant="outlined" fullWidth />
+          <TextField
+            label="Search Products"
+            value={searchValue}
+            onChange={(event) => {
+              setSearchValue(event.target.value);
+            }}
+            variant="outlined"
+            fullWidth
+          />
         </Grid>
       </Grid>
       <Box display="flex" justifyContent="space-between">

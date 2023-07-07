@@ -7,7 +7,7 @@ import { useFilterContext } from "../contexts/FilterContext";
 
 function Browse() {
   const { isLoading, error } = useProductContext();
-  const { filteredProducts } = useFilterContext();
+  const { filteredProducts, searchValue } = useFilterContext();
   return (
     <Container>
       <Filter />
@@ -18,7 +18,13 @@ function Browse() {
         <div>
           {!isLoading && filteredProducts.length > 0 && (
             <Container sx={{ px: 0, my: 2 }}>
-              ({filteredProducts.length} results)
+              (
+              {
+                filteredProducts.filter((ele) =>
+                  ele.title.toLowerCase().includes(searchValue.toLowerCase())
+                ).length
+              }{" "}
+              results)
             </Container>
           )}
           <Box sx={{ flexGrow: 1 }}>
@@ -30,12 +36,13 @@ function Browse() {
                 mb: 10,
               }}
             >
-              {filteredProducts.map((p) => (
-                <ProductCard data={p}></ProductCard>
-              ))}
-              {filteredProducts.map((p) => (
-                <ProductCard data={p}></ProductCard>
-              ))}
+              {filteredProducts
+                .filter((ele) =>
+                  ele.title.toLowerCase().includes(searchValue.toLowerCase())
+                )
+                .map((p) => (
+                  <ProductCard data={p}></ProductCard>
+                ))}
             </Grid>
           </Box>
         </div>
