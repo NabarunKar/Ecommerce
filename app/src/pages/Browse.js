@@ -17,7 +17,11 @@ function Browse() {
       {isLoading && <div>Loading...</div>}
       {filteredProducts && (
         <div>
-          {!isLoading && <h1>Total: {filteredProducts.length}</h1>}
+          {!isLoading && filteredProducts.length > 0 && (
+            <Container sx={{ px: 0, my: 2 }}>
+              ({filteredProducts.length} results)
+            </Container>
+          )}
           <Box sx={{ flexGrow: 1 }}>
             <Grid
               Grid
