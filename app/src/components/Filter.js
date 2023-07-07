@@ -27,7 +27,7 @@ function Filter() {
     sort(event.target.value);
   };
   return (
-    <Container>
+    <Container sx={{ mt: 2 }}>
       <Grid container>
         <Grid item xs={12} md={6} lg={8} sx={{ margin: "auto" }}>
           <TextField label="Search Products" variant="outlined" fullWidth />

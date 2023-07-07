@@ -4,7 +4,6 @@ import UseFetch from "../hooks/useFetch";
 import { useCartContext } from "../contexts/CartContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import ReviewForm from "../components/ReviewForm";
-import BackButton from "../components/BackButton";
 import CircleIcon from "@mui/icons-material/Circle";
 import {
   Box,
@@ -72,7 +71,7 @@ function Product() {
   return (
     <>
       <Container sx={{ mt: 5 }}>
-        <Grid container spacing={{ xs: 2, md: 3 }}>
+        <Grid container spacing={{ xs: 2, md: 3 }} justifyContent={"center"}>
           {error && <div>{error}</div>}
           {isPending && (
             <Box sx={{ display: "flex", margin: "auto" }}>
@@ -267,7 +266,7 @@ function Product() {
                       <h2>Out of stock</h2>
                     )}
                   </Container>
-                  <p>{data.description}</p>
+                  <p style={{ textAlign: "justify" }}>{data.description}</p>
                 </Container>
               </Grid>
               <Grid md={12} order={{ xs: 3 }}>
@@ -330,7 +329,9 @@ function Product() {
                               value={ele.rating}
                               readOnly
                             />
-                            <Typography sx={{ mt: 2 }}>{ele.text}</Typography>
+                            <Typography sx={{ mt: 2, textAlign: "justify" }}>
+                              {ele.text}
+                            </Typography>
                           </CardContent>
                         </Card>
                       ))}

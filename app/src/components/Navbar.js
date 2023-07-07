@@ -47,7 +47,7 @@ function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" elevation={0} color="transparent">
+      <AppBar position="fixed" elevation={0} sx={{backgroundColor:"#fff"}}>
         <Toolbar>
           {location.pathname !== "/" && <BackButton />}
           <IconButton
@@ -60,7 +60,7 @@ function Navbar() {
               <HomeIcon />
             </Link>
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color:"#000" }}>
             App
           </Typography>
 

@@ -2,8 +2,7 @@ import React from "react";
 import Filter from "../components/Filter";
 import { useProductContext } from "../contexts/ProductContext";
 import ProductCard from "../components/ProductCard";
-import BackButton from "../components/BackButton";
-import { AppBar, Box, Container, Grid, Toolbar } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import { useFilterContext } from "../contexts/FilterContext";
 
 function Browse() {
@@ -31,6 +30,9 @@ function Browse() {
                 mb: 10,
               }}
             >
+              {filteredProducts.map((p) => (
+                <ProductCard data={p}></ProductCard>
+              ))}
               {filteredProducts.map((p) => (
                 <ProductCard data={p}></ProductCard>
               ))}
