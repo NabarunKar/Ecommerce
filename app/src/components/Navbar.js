@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useCartContext } from "../contexts/CartContext";
@@ -20,8 +20,11 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Logout from "@mui/icons-material/Logout";
+import BackButton from "./BackButton";
 
 function Navbar() {
+  let location = useLocation();
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const { logout } = useLogout();
@@ -46,6 +49,7 @@ function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" elevation={0} color="transparent">
         <Toolbar>
+          {location.pathname !== "/" && <BackButton />}
           <IconButton
             size="large"
             edge="start"

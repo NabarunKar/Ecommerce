@@ -11,7 +11,6 @@ function Browse() {
   const { filteredProducts } = useFilterContext();
   return (
     <Container>
-      <BackButton />
       <Filter />
       {error && <div>{error}</div>}
       {isLoading && <div>Loading...</div>}

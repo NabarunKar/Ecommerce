@@ -71,7 +71,6 @@ function Product() {
 
   return (
     <>
-      <BackButton />
       <Container sx={{ mt: 5 }}>
         <Grid container spacing={{ xs: 2, md: 3 }}>
           {error && <div>{error}</div>}
