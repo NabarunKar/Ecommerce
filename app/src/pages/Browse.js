@@ -16,7 +16,7 @@ function Browse() {
       {isLoading && <div>Loading...</div>}
       {filteredProducts && (
         <div>
-          {!isLoading && filteredProducts.length > 0 && (
+          {!isLoading && filteredProducts.length >= 0 && (
             <Container sx={{ px: 0, my: 2 }}>
               (
               {

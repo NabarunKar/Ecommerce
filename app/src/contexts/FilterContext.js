@@ -12,7 +12,13 @@ const initialState = {
   filter: {
     categories: {},
     brands: {},
+    price: {
+      max: 0,
+      min: 0,
+    },
   },
+  maxPrice: 0,
+  minPrice: 0,
 };
 
 // For brands
@@ -31,9 +37,21 @@ const getUniqueDataFromArray = (data, property) => {
   return obj;
 };
 
+// Find the max price
+const getMaxPrice = (data) => {
+  return Math.ceil(Math.max(...data.map((ele) => ele.price)));
+};
+
+// Find the min price
+const getMinPrice = (data) => {
+  return Math.floor(Math.min(...data.map((ele) => ele.price)));
+};
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "INIT":
+      let maxPriceValue = getMaxPrice(action.payload);
+      let minPriceValue = getMinPrice(action.payload);
       return {
         ...state,
         allProducts: [...action.payload],
@@ -41,7 +59,13 @@ const reducer = (state, action) => {
         filter: {
           categories: getUniqueDataFromArray(action.payload, "categories"),
           brands: getUniqueData(action.payload, "brand"),
+          price: {
+            max: maxPriceValue,
+            min: minPriceValue,
+          },
         },
+        maxPrice: maxPriceValue,
+        minPrice: minPriceValue,
       };
     case "SORT_OPTION":
       return {
@@ -92,7 +116,9 @@ const reducer = (state, action) => {
         filteredProducts: state.allProducts.filter(
           (ele) =>
             state.filter.brands[ele.brand] &&
-            ele.categories.some((cat) => state.filter.categories[cat])
+            ele.categories.some((cat) => state.filter.categories[cat]) &&
+            ele.price >= state.filter.price.min &&
+            ele.price <= state.filter.price.max
         ),
       };
     case "SET_CATEGORY_VALUE":
@@ -119,6 +145,18 @@ const reducer = (state, action) => {
       return {
         ...state,
         filter: newFilter,
+      };
+    case "SET_PRICE_RANGE":
+      let [minValue, maxValue] = action.payload;
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          price: {
+            max: maxValue,
+            min: minValue,
+          },
+        },
       };
     default:
       return state;
@@ -154,6 +192,11 @@ export const FilterProvider = ({ children }) => {
     dispatch({ type: "APPLY_FILTER" });
   };
 
+  const setPriceRange = (value) => {
+    dispatch({ type: "SET_PRICE_RANGE", payload: value });
+    dispatch({ type: "APPLY_FILTER" });
+  };
+
   useEffect(() => {
     dispatch({ type: "INIT", payload: products || [] });
   }, [products]);
@@ -171,6 +214,7 @@ export const FilterProvider = ({ children }) => {
         setCategoryValue,
         setBrandValue,
         toggleAll,
+        setPriceRange,
       }}
     >
       {children}

@@ -16,6 +16,7 @@ import {
   Divider,
   Checkbox,
   FormControlLabel,
+  Slider,
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
@@ -28,6 +29,9 @@ function Filter() {
     setCategoryValue,
     setBrandValue,
     toggleAll,
+    maxPrice,
+    minPrice,
+    setPriceRange,
   } = useFilterContext();
 
   const [sortValue, setSortValue] = useState("");
@@ -38,6 +42,11 @@ function Filter() {
     setSortValue(event.target.value);
     sort(event.target.value);
   };
+
+  function valuetext(value) {
+    return `$${value}`;
+  }
+
   return (
     <Container sx={{ mt: 2 }}>
       <Grid container>
@@ -160,6 +169,20 @@ function Filter() {
                   />
                 ))}
             </Container>
+          </Container>
+          <Divider />
+          <Container>
+            <Slider
+              getAriaLabel={() => "Price range slider"}
+              value={[filter.price.min, filter.price.max]}
+              valueLabelDisplay="auto"
+              min={minPrice}
+              max={maxPrice}
+              getAriaValueText={valuetext}
+              onChange={(event, newValue) => {
+                setPriceRange(newValue);
+              }}
+            />
           </Container>
         </DialogContent>
       </Dialog>
