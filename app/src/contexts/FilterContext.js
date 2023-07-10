@@ -110,6 +110,16 @@ const reducer = (state, action) => {
         ...state,
         filter: newBrandFilter,
       };
+    case "TOGGLE_ALL":
+      let newFilter = state.filter;
+      Object.keys(state.filter[action.payload.property]).forEach((ele) => {
+        console.log(ele, newFilter[action.payload.property][ele]);
+        newFilter[action.payload.property][ele] = action.payload.value;
+      });
+      return {
+        ...state,
+        filter: newFilter,
+      };
     default:
       return state;
   }
@@ -139,6 +149,11 @@ export const FilterProvider = ({ children }) => {
     dispatch({ type: "APPLY_FILTER" });
   };
 
+  const toggleAll = (value) => {
+    dispatch({ type: "TOGGLE_ALL", payload: value });
+    dispatch({ type: "APPLY_FILTER" });
+  };
+
   useEffect(() => {
     dispatch({ type: "INIT", payload: products || [] });
   }, [products]);
@@ -155,6 +170,7 @@ export const FilterProvider = ({ children }) => {
         setSearchValue,
         setCategoryValue,
         setBrandValue,
+        toggleAll,
       }}
     >
       {children}

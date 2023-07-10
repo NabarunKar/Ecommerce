@@ -13,7 +13,6 @@ import {
   MenuItem,
   Select,
   TextField,
-  Button,
   Divider,
   Checkbox,
   FormControlLabel,
@@ -28,6 +27,7 @@ function Filter() {
     filter,
     setCategoryValue,
     setBrandValue,
+    toggleAll,
   } = useFilterContext();
 
   const [sortValue, setSortValue] = useState("");
@@ -89,7 +89,19 @@ function Filter() {
           <Container>
             <FormControlLabel
               label="All"
-              control={<Checkbox checked={false} />}
+              control={
+                <Checkbox
+                  checked={Object.keys(filter.categories).every(
+                    (ele) => filter.categories[ele]
+                  )}
+                  onChange={(event) => {
+                    toggleAll({
+                      property: "categories",
+                      value: event.target.checked,
+                    });
+                  }}
+                />
+              }
             />
             <Container>
               {filter &&
@@ -115,7 +127,19 @@ function Filter() {
           <Container>
             <FormControlLabel
               label="All"
-              control={<Checkbox checked={false} />}
+              control={
+                <Checkbox
+                  checked={Object.keys(filter.brands).every(
+                    (ele) => filter.brands[ele]
+                  )}
+                  onChange={(event) => {
+                    toggleAll({
+                      property: "brands",
+                      value: event.target.checked,
+                    });
+                  }}
+                />
+              }
             />
             <Container>
               {filter &&
