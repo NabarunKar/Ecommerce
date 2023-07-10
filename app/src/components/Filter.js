@@ -34,20 +34,6 @@ function Filter() {
 
   const [open, setOpen] = useState(false);
 
-  // For brands
-  const getUniqueData = (data, property) => {
-    let values = data.map((ele) => ele[property]);
-    let obj = {};
-    [...new Set(values)].forEach((ele) => (obj[ele] = true));
-    return obj;
-  };
-
-  // For category and color array
-  const getUniqueDataFromArray = (data, property) => {
-    let values = data.reduce((acc, ele) => [...acc, ...ele[property]], []);
-    return [...new Set(values)];
-  };
-
   const handleChange = (event) => {
     setSortValue(event.target.value);
     sort(event.target.value);

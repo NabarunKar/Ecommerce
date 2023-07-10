@@ -49,6 +49,7 @@ const reducer = (state, action) => {
         sortOption: action.payload,
       };
     case "SORT":
+      console.log(state.sortOption);
       let sortedProducts = [...state.filteredProducts];
       switch (action.payload) {
         case "asc":
@@ -85,6 +86,7 @@ const reducer = (state, action) => {
         searchValue: action.payload,
       };
     case "APPLY_FILTER":
+      console.log("filter applied");
       return {
         ...state,
         filteredProducts: state.allProducts.filter(
@@ -129,10 +131,12 @@ export const FilterProvider = ({ children }) => {
 
   const setCategoryValue = (value) => {
     dispatch({ type: "SET_CATEGORY_VALUE", payload: value });
+    dispatch({ type: "APPLY_FILTER" });
   };
 
   const setBrandValue = (value) => {
     dispatch({ type: "SET_BRAND_VALUE", payload: value });
+    dispatch({ type: "APPLY_FILTER" });
   };
 
   useEffect(() => {
@@ -142,13 +146,6 @@ export const FilterProvider = ({ children }) => {
   useEffect(() => {
     dispatch({ type: "SORT", payload: state.sortOption });
   }, [state.sortOption]);
-
-  useEffect(() => {
-    dispatch({ type: "APPLY_FILTER" });
-  }, [
-    Object.values(state.filter.categories),
-    Object.values(state.filter.brands),
-  ]);
 
   return (
     <FilterContext.Provider

@@ -1,5 +1,6 @@
 import React from "react";
 import { useCartContext } from "../contexts/CartContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 import {
   Box,
   Button,
@@ -31,6 +32,8 @@ function Cart() {
     decrementQuantity,
     closeCart,
   } = useCartContext();
+
+  const { user } = useAuthContext();
 
   return (
     <Dialog
@@ -169,11 +172,8 @@ function Cart() {
         )}
       </DialogContent>
       <DialogActions>
-        <Button color="success" disabled={cart.length == 0}>
-          Checkout
-        </Button>
+        <Button disabled={cart.length == 0 || !user}>Checkout</Button>
         <Button
-          color="warning"
           disabled={cart.length == 0}
           onClick={() => {
             clearCart();
