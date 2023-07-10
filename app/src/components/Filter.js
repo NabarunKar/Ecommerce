@@ -4,6 +4,7 @@ import {
   Box,
   Container,
   Dialog,
+  DialogContent,
   DialogTitle,
   FormControl,
   Grid,
@@ -12,15 +13,40 @@ import {
   MenuItem,
   Select,
   TextField,
+  Button,
+  Divider,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 function Filter() {
-  const { sort, searchValue, setSearchValue } = useFilterContext();
+  const {
+    sort,
+    searchValue,
+    setSearchValue,
+    filter,
+    setCategoryValue,
+    setBrandValue,
+  } = useFilterContext();
 
   const [sortValue, setSortValue] = useState("");
 
   const [open, setOpen] = useState(false);
+
+  // For brands
+  const getUniqueData = (data, property) => {
+    let values = data.map((ele) => ele[property]);
+    let obj = {};
+    [...new Set(values)].forEach((ele) => (obj[ele] = true));
+    return obj;
+  };
+
+  // For category and color array
+  const getUniqueDataFromArray = (data, property) => {
+    let values = data.reduce((acc, ele) => [...acc, ...ele[property]], []);
+    return [...new Set(values)];
+  };
 
   const handleChange = (event) => {
     setSortValue(event.target.value);
@@ -68,10 +94,64 @@ function Filter() {
           setOpen(false);
         }}
         keepMounted
+        scroll={"body"}
       >
         <DialogTitle>
           <h1>Hello</h1>
         </DialogTitle>
+        <DialogContent>
+          <Container>
+            <FormControlLabel
+              label="All"
+              control={<Checkbox checked={false} />}
+            />
+            <Container>
+              {filter &&
+                Object.keys(filter.categories).map((ele) => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={filter.categories[ele]}
+                        onChange={(event) => {
+                          setCategoryValue({
+                            category: ele,
+                            value: event.target.checked,
+                          });
+                        }}
+                      />
+                    }
+                    label={ele}
+                  />
+                ))}
+            </Container>
+          </Container>
+          <Divider />
+          <Container>
+            <FormControlLabel
+              label="All"
+              control={<Checkbox checked={false} />}
+            />
+            <Container>
+              {filter &&
+                Object.keys(filter.brands).map((ele) => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={filter.brands[ele]}
+                        onChange={(event) => {
+                          setBrandValue({
+                            brand: ele,
+                            value: event.target.checked,
+                          });
+                        }}
+                      />
+                    }
+                    label={ele}
+                  />
+                ))}
+            </Container>
+          </Container>
+        </DialogContent>
       </Dialog>
     </Container>
   );

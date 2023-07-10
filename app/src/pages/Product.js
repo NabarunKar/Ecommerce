@@ -5,6 +5,7 @@ import { useCartContext } from "../contexts/CartContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import ReviewForm from "../components/ReviewForm";
 import CircleIcon from "@mui/icons-material/Circle";
+import { Link } from "react-router-dom";
 import {
   Box,
   Button,
@@ -70,11 +71,11 @@ function Product() {
 
   return (
     <>
-      <Container sx={{ mt: 5 }}>
+      <Container sx={{ mt: 2 }}>
         <Grid container spacing={{ xs: 2, md: 3 }} justifyContent={"center"}>
           {error && <div>{error}</div>}
           {isPending && (
-            <Box sx={{ display: "flex", margin: "auto" }}>
+            <Box sx={{ display: "flex", margin: "auto", mt: 5 }}>
               <CircularProgress />
             </Box>
           )}
@@ -118,7 +119,13 @@ function Product() {
               </Grid>
               <Grid item md={6} order={{ xs: 1, md: 2 }}>
                 <Container>
-                  {/* <img src={data.thumbnail} alt="" /> */}
+                  <Typography>
+                    {data.categories.map((e) => (
+                      <Button sx={{ textTransform: "none" }}>
+                        <Link>#{e.toLowerCase()}</Link>
+                      </Button>
+                    ))}
+                  </Typography>
                   <Typography variant="h4">{data.title}</Typography>
                   {data.reviews.length > 0 && (
                     <Rating

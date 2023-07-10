@@ -9,6 +9,26 @@ const initialState = {
   allProducts: null,
   sortOption: "asc",
   searchValue: "",
+  filter: {
+    categories: {},
+    brands: {},
+  },
+};
+
+// For brands
+const getUniqueData = (data, property) => {
+  let values = data.map((ele) => ele[property]);
+  let obj = {};
+  [...new Set(values)].forEach((ele) => (obj[ele] = true));
+  return obj;
+};
+
+// For category
+const getUniqueDataFromArray = (data, property) => {
+  let values = data.reduce((acc, ele) => [...acc, ...ele[property]], []);
+  let obj = {};
+  [...new Set(values)].forEach((ele) => (obj[ele] = true));
+  return obj;
 };
 
 const reducer = (state, action) => {
@@ -18,6 +38,10 @@ const reducer = (state, action) => {
         ...state,
         allProducts: [...action.payload],
         filteredProducts: [...action.payload],
+        filter: {
+          categories: getUniqueDataFromArray(action.payload, "categories"),
+          brands: getUniqueData(action.payload, "brand"),
+        },
       };
     case "SORT_OPTION":
       return {
@@ -60,6 +84,30 @@ const reducer = (state, action) => {
         ...state,
         searchValue: action.payload,
       };
+    case "APPLY_FILTER":
+      return {
+        ...state,
+        filteredProducts: state.allProducts.filter(
+          (ele) =>
+            state.filter.brands[ele.brand] &&
+            ele.categories.some((cat) => state.filter.categories[cat])
+        ),
+      };
+    case "SET_CATEGORY_VALUE":
+      let newCategoryFilter = state.filter;
+      newCategoryFilter.categories[action.payload.category] =
+        action.payload.value;
+      return {
+        ...state,
+        filter: newCategoryFilter,
+      };
+    case "SET_BRAND_VALUE":
+      let newBrandFilter = state.filter;
+      newBrandFilter.brands[action.payload.brand] = action.payload.value;
+      return {
+        ...state,
+        filter: newBrandFilter,
+      };
     default:
       return state;
   }
@@ -79,6 +127,14 @@ export const FilterProvider = ({ children }) => {
     dispatch({ type: "SET_SEARCH_VALUE", payload: value });
   };
 
+  const setCategoryValue = (value) => {
+    dispatch({ type: "SET_CATEGORY_VALUE", payload: value });
+  };
+
+  const setBrandValue = (value) => {
+    dispatch({ type: "SET_BRAND_VALUE", payload: value });
+  };
+
   useEffect(() => {
     dispatch({ type: "INIT", payload: products || [] });
   }, [products]);
@@ -87,8 +143,23 @@ export const FilterProvider = ({ children }) => {
     dispatch({ type: "SORT", payload: state.sortOption });
   }, [state.sortOption]);
 
+  useEffect(() => {
+    dispatch({ type: "APPLY_FILTER" });
+  }, [
+    Object.values(state.filter.categories),
+    Object.values(state.filter.brands),
+  ]);
+
   return (
-    <FilterContext.Provider value={{ ...state, sort, setSearchValue }}>
+    <FilterContext.Provider
+      value={{
+        ...state,
+        sort,
+        setSearchValue,
+        setCategoryValue,
+        setBrandValue,
+      }}
+    >
       {children}
     </FilterContext.Provider>
   );
