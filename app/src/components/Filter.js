@@ -5,7 +5,6 @@ import {
   Container,
   Dialog,
   DialogContent,
-  DialogTitle,
   FormControl,
   Grid,
   IconButton,
@@ -13,10 +12,12 @@ import {
   MenuItem,
   Select,
   TextField,
-  Divider,
   Checkbox,
   FormControlLabel,
   Slider,
+  Typography,
+  DialogActions,
+  Button,
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
@@ -91,10 +92,8 @@ function Filter() {
         keepMounted
         scroll={"body"}
       >
-        <DialogTitle>
-          <h1>Hello</h1>
-        </DialogTitle>
         <DialogContent>
+          <Typography variant="h6">Categories</Typography>
           <Container>
             <FormControlLabel
               label="All"
@@ -132,7 +131,7 @@ function Filter() {
                 ))}
             </Container>
           </Container>
-          <Divider />
+          <Typography variant="h6">Brands</Typography>
           <Container>
             <FormControlLabel
               label="All"
@@ -170,7 +169,14 @@ function Filter() {
                 ))}
             </Container>
           </Container>
-          <Divider />
+          <Typography variant="h6">
+            <Box display="flex" justifyContent="space-between">
+              <span>Price</span>
+              <span>
+                ${filter.price.min} - ${filter.price.max}
+              </span>
+            </Box>
+          </Typography>
           <Container>
             <Slider
               getAriaLabel={() => "Price range slider"}
@@ -182,9 +188,29 @@ function Filter() {
               onChange={(event, newValue) => {
                 setPriceRange(newValue);
               }}
+              marks={[
+                {
+                  value: minPrice,
+                  label: valuetext(minPrice),
+                },
+                {
+                  value: maxPrice,
+                  label: valuetext(maxPrice),
+                },
+              ]}
             />
           </Container>
         </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setOpen(false);
+            }}
+            autoFocus
+          >
+            Close
+          </Button>
+        </DialogActions>
       </Dialog>
     </Container>
   );

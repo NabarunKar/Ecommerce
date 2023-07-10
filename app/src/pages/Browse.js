@@ -2,7 +2,7 @@ import React from "react";
 import Filter from "../components/Filter";
 import { useProductContext } from "../contexts/ProductContext";
 import ProductCard from "../components/ProductCard";
-import { Box, Container, Grid } from "@mui/material";
+import { Box, CircularProgress, Container, Grid } from "@mui/material";
 import { useFilterContext } from "../contexts/FilterContext";
 
 function Browse() {
@@ -11,9 +11,14 @@ function Browse() {
   return (
     <Container>
       <Filter />
-      <Container sx={{ position: "fixed" }}></Container>
       {error && <div>{error}</div>}
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <Container>
+          <Box sx={{ display: "flex", margin: "auto", mt: 5 }}>
+            <CircularProgress />
+          </Box>
+        </Container>
+      )}
       {filteredProducts && (
         <div>
           {!isLoading && filteredProducts.length >= 0 && (

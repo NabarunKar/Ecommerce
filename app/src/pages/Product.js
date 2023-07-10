@@ -11,7 +11,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardHeader,
   CardMedia,
   CircularProgress,
   Container,
