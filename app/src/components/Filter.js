@@ -45,7 +45,7 @@ function Filter() {
   };
 
   function valuetext(value) {
-    return `$${value}`;
+    return `₹${value}`;
   }
 
   return (
@@ -173,7 +173,7 @@ function Filter() {
             <Box display="flex" justifyContent="space-between">
               <span>Price</span>
               <span>
-                ${filter.price.min} - ${filter.price.max}
+                ₹{filter.price.min} - ₹{filter.price.max}
               </span>
             </Box>
           </Typography>

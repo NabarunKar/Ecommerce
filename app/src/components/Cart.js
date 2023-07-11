@@ -50,7 +50,7 @@ function Cart() {
         {cart.length > 0 && (
           <Box display="flex" justifyContent="space-between">
             <span>{total_item} Items</span>
-            <span>${Math.round(total_amount * 100) / 100}</span>
+            <span>₹{Math.round(total_amount * 100) / 100}</span>
           </Box>
         )}
       </DialogTitle>
@@ -143,7 +143,7 @@ function Cart() {
                     </Grid>
                     <Grid item>
                       <Typography variant="h6">
-                        ${Math.round(ele.quantity * ele.price * 100) / 100}
+                        ₹{Math.round(ele.quantity * ele.price * 100) / 100}
                       </Typography>
                     </Grid>
                     <Grid item>

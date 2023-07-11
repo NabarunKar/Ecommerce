@@ -35,7 +35,7 @@ function ProductCard(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            ${data.price}
+            ₹{data.price}
           </Typography>
           {data.reviews.length > 0 && (
             <Rating
