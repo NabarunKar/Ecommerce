@@ -126,16 +126,21 @@ function Product() {
                     ))}
                   </Typography>
                   <Typography variant="h4">{data.title}</Typography>
-                  {data.reviews.length > 0 && (
-                    <Rating
-                      name="read-only"
-                      value={
-                        data.reviews.reduce((acc, ele) => acc + ele.rating, 0) /
-                        data.reviews.length
-                      }
-                      precision={0.1}
-                      readOnly
-                    />
+                  {data.reviews && (
+                    <>
+                      <Rating
+                        name="read-only"
+                        value={
+                          data.reviews.reduce(
+                            (acc, ele) => acc + ele.rating,
+                            0
+                          ) / data.reviews.length
+                        }
+                        precision={0.1}
+                        readOnly
+                      />{" "}
+                      ({data.reviews.length} reviews)
+                    </>
                   )}
                   <Typography variant="h4">
                     ${data.price}{" "}

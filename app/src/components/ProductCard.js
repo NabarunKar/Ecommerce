@@ -15,12 +15,28 @@ function ProductCard(props) {
   return (
     <Grid item key={data._id}>
       <Card
-        sx={{ maxWidth: 345}}
+        sx={{ maxWidth: 345 }}
         elevation={0}
         style={{ border: "1px solid", borderColor: "rgba(0,0,0,0.2)" }}
       >
         <Link className="btn-link-dark" to={`/products/${data._id}`}>
-          <CardHeader title={data.title} subheader={data.brand} />
+          <CardHeader
+            title={
+              <Typography
+                variant="h6"
+                sx={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitLineClamp: "2",
+                  WebkitBoxOrient: "vertical",
+                }}
+              >
+                {data.title}
+              </Typography>
+            }
+            subheader={data.brand}
+          />
         </Link>
         <CardMedia
           component="img"
@@ -37,7 +53,7 @@ function ProductCard(props) {
           <Typography gutterBottom variant="h5" component="div">
             ₹{data.price}
           </Typography>
-          {data.reviews.length > 0 && (
+          {data.reviews && (
             <Rating
               name="read-only"
               value={
@@ -48,7 +64,17 @@ function ProductCard(props) {
               readOnly
             />
           )}
-          <Typography noWrap>{data.description}</Typography>
+          <Typography
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: "2",
+              WebkitBoxOrient: "vertical",
+            }}
+          >
+            {data.description}
+          </Typography>
         </CardContent>
       </Card>
     </Grid>
