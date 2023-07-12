@@ -82,14 +82,19 @@ function Product() {
             <>
               <Grid item md={6} order={{ xs: 2, md: 1 }}>
                 <Box>
-                  <Paper variant="outlined" sx={{ padding: "5px" }}>
+                  <Paper
+                    variant="outlined"
+                    sx={{
+                      padding: "5px",
+                      minHeight: "400px",
+                    }}
+                  >
                     <CardMedia
                       component="img"
                       image={data.images[imgArrayIndex]}
                       sx={{
-                        width: "auto",
-                        height: "400px",
-                        minHeight: "50px",
+                        objectFit: "contain",
+                        maxHeight: "400px",
                         margin: "auto",
                       }}
                     />
@@ -106,7 +111,7 @@ function Product() {
                         component="img"
                         image={e}
                         sx={{
-                          width: "auto",
+                          width: "50px",
                           height: "50px",
                           minHeight: "50px",
                           margin: "auto",
@@ -143,7 +148,7 @@ function Product() {
                     </>
                   )}
                   <Typography variant="h4">
-                    ${data.price}{" "}
+                    ₹{data.price}{" "}
                     {color && <CircleIcon style={{ color: `${color}` }} />}{" "}
                     {size && (
                       <Box
