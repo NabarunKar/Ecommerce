@@ -61,7 +61,7 @@ function Cart() {
               <Grid container sx={{ justifyContent: "space-between", my: 2 }}>
                 <Grid item xs={12} md={6}>
                   <Grid container>
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                       <Paper
                         variant="outlined"
                         sx={{ padding: "5px", display: "inline-flex" }}
@@ -70,15 +70,15 @@ function Cart() {
                           component="img"
                           image={ele.thumbnail}
                           sx={{
-                            width: "auto",
+                            objectFit: "contain",
+                            width: "50px",
                             height: "50px",
-                            minHeight: "50px",
                             margin: "auto",
                           }}
                         />
                       </Paper>
                     </Grid>
-                    <Grid item xs={10} md={4}>
+                    <Grid item xs={9} md={4}>
                       <Typography variant="body1">
                         {ele.title}{" "}
                         {ele.color && (
