@@ -1,6 +1,7 @@
 import React from "react";
 import { useCartContext } from "../contexts/CartContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { usePost } from "../hooks/usePost";
 import {
   Box,
   Button,
@@ -19,6 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CircleIcon from "@mui/icons-material/Circle";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 
 function Cart() {
   const {
@@ -34,6 +36,26 @@ function Cart() {
   } = useCartContext();
 
   const { user } = useAuthContext();
+
+  const [post, isPending, error] = usePost(
+    "/api/stripe/create-checkout-session"
+  );
+
+  const handleCheckout = async () => {
+    const checkoutData = {
+      userId: user._id,
+      items: cart.map((ele) => {
+        return {
+          productId: ele.productId,
+          color: ele.color,
+          size: ele.size,
+          quantity: ele.quantity,
+        };
+      }),
+    };
+
+    window.location.href = (await post(checkoutData)).url;
+  };
 
   return (
     <Dialog
@@ -172,7 +194,17 @@ function Cart() {
         )}
       </DialogContent>
       <DialogActions>
-        <Button disabled={cart.length == 0 || !user}>Checkout</Button>
+        <LoadingButton
+          disabled={cart.length === 0 || !user}
+          onClick={() => {
+            handleCheckout();
+          }}
+          loading={isPending}
+          loadingPosition="center"
+          variant="text"
+        >
+          Checkout
+        </LoadingButton>
         <Button
           disabled={cart.length == 0}
           onClick={() => {

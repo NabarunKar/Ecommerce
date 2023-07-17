@@ -28,6 +28,8 @@ export const usePost = (url, token) => {
       console.log(JSON.stringify(json));
       setIsPending(false);
     }
+
+    return json;
   };
 
   return [post, isPending, error];

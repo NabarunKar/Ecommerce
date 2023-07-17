@@ -27,6 +27,7 @@ db.once("open", function () {
 const usersRoutes = require("./routes/users");
 const productsRoutes = require("./routes/products");
 const reviewsRoutes = require("./routes/reviews");
+const stripe = require("./routes/stripe");
 
 // Set up middleware
 app.use(express.json());
@@ -35,6 +36,7 @@ app.use(express.json());
 app.use("/api/users", usersRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/reviews", reviewsRoutes);
+app.use("/api/stripe", stripe);
 
 // Start server
 const port = process.env.PORT;
