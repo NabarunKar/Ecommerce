@@ -199,7 +199,7 @@ function Cart() {
           onClick={() => {
             handleCheckout();
           }}
-          loading={isPending}
+          loading={isPending && !error}
           loadingPosition="center"
           variant="text"
         >
