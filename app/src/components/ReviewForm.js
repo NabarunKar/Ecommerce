@@ -21,17 +21,17 @@ function ReviewForm({ open, handleClose, data, productId }) {
   const [value, setValue] = useState(data.rating);
   const [content, setContent] = useState(data.text);
 
-  const [post, isPending, error] = usePost(
-    `/api/reviews/${productId}`,
-    user.token
-  );
+  const [post, isPending, error] = usePost(`/api/reviews/${productId}`);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await post({
-      rating: value,
-      text: content,
-    });
+    await post(
+      {
+        rating: value,
+        text: content,
+      },
+      user.token
+    );
   };
 
   return (

@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-export const usePost = (url, token) => {
+export const usePost = (url) => {
   const [isPending, setIsPending] = useState(null);
   const [error, setError] = useState(null);
 
-  const post = async (obj) => {
+  const post = async (obj, token) => {
     setIsPending(true);
     setError(null);
 

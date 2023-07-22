@@ -54,7 +54,7 @@ function Cart() {
       }),
     };
 
-    window.location.href = (await post(checkoutData)).url;
+    window.location.href = (await post(checkoutData, user.token)).url;
   };
 
   return (
@@ -68,7 +68,7 @@ function Cart() {
       keepMounted
     >
       <DialogTitle>
-        {cart.length == 0 && <>Your cart is empty!</>}
+        {cart.length === 0 && <>Your cart is empty!</>}
         {cart.length > 0 && (
           <Box display="flex" justifyContent="space-between">
             <span>{total_item} Items</span>
@@ -135,7 +135,7 @@ function Cart() {
                   >
                     <Grid item>
                       <IconButton
-                        disabled={ele.quantity == 1}
+                        disabled={ele.quantity === 1}
                         onClick={() => {
                           decrementQuantity(ele.cartItemId);
                         }}
@@ -155,7 +155,7 @@ function Cart() {
                       </Box>
 
                       <IconButton
-                        disabled={ele.quantity == ele.stock}
+                        disabled={ele.quantity === ele.stock}
                         onClick={() => {
                           incrementQuantity(ele.cartItemId);
                         }}
@@ -206,7 +206,7 @@ function Cart() {
           Checkout
         </LoadingButton>
         <Button
-          disabled={cart.length == 0}
+          disabled={cart.length === 0}
           onClick={() => {
             clearCart();
           }}
