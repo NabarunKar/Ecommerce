@@ -27,6 +27,7 @@ db.once("open", function () {
 const usersRoutes = require("./routes/users");
 const productsRoutes = require("./routes/products");
 const reviewsRoutes = require("./routes/reviews");
+const ordersRoutes = require("./routes/orders");
 const stripe = require("./routes/stripe");
 
 // Set up middleware
@@ -43,6 +44,7 @@ app.use((req, res, next) => {
 app.use("/api/users", usersRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/reviews", reviewsRoutes);
+app.use("/api/orders", ordersRoutes);
 app.use("/api/stripe", stripe);
 
 // Start server
