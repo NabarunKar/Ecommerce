@@ -11,6 +11,7 @@ import Cart from "./components/Cart";
 import Review from "./components/Review";
 import Browse from "./pages/Browse";
 import Success from "./pages/Success";
+import Orders from "./pages/Orders";
 
 function App() {
   const { user } = useAuthContext();
@@ -41,6 +42,7 @@ function App() {
           <Success />
         </Route>
         <Route path="/profile">{user && <Profile />}</Route>
+        <Route path="/orders">{user && <Orders />}</Route>
       </Switch>
     </Router>
   );
