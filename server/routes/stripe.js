@@ -8,9 +8,6 @@ require("dotenv").config();
 
 const stripe = Stripe(process.env.STRIPE_KEY);
 
-const endpointSecret =
-  "whsec_d8680c891071c5d18537837d6b457910d2e0d4985744290f41862290bca71893";
-
 router.post(
   "/webhook",
   express.raw({ type: "application/json" }),
@@ -26,9 +23,8 @@ router.post(
       event = await stripe.webhooks.constructEvent(
         req.body,
         sig,
-        endpointSecret
+        process.env.ENDPOINT_SECRET
       );
-      console.log(event.type);
     } catch (err) {
       res.status(400).send(`Webhook Error: ${err.message}`);
       console.log(err.message);
@@ -37,14 +33,22 @@ router.post(
     data = event.data.object;
     eventType = event.type;
 
-    if (eventType === "checkout.session.completed") {
-      stripe.customers
-        .retrieve(data.customer)
-        .then((customer) => {
-          console.log(customer);
-          console.log("Data: ", data);
-        })
-        .catch((err) => console.log(err.message));
+    switch (event.type) {
+      case "payment_intent.succeeded":
+        stripe.customers
+          .retrieve(data.customer)
+          .then((customer) => {
+            console.log(customer["metadata"].userId);
+            console.log(JSON.parse(customer["metadata"].items));
+          })
+          .catch((err) => console.log(err.message));
+        break;
+      case "checkout.session.completed":
+        console.log(data["payment_intent"]);
+        break;
+      default:
+        console.log(`Unhandled event type: ${event.type}`);
+        break;
     }
 
     // Return a response to acknowledge receipt of the event
@@ -78,7 +82,7 @@ router.post("/create-checkout-session", requireAuth, async (req, res) => {
   const customer = await stripe.customers.create({
     metadata: {
       userId: req.authUserId.toString(),
-      cart: JSON.stringify(req.body.items),
+      items: JSON.stringify(req.body.items),
     },
   });
 
