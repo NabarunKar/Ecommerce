@@ -38,13 +38,11 @@ router.post(
         stripe.customers
           .retrieve(data.customer)
           .then((customer) => {
+            console.log(data.id);
             console.log(customer["metadata"].userId);
             console.log(JSON.parse(customer["metadata"].items));
           })
           .catch((err) => console.log(err.message));
-        break;
-      case "checkout.session.completed":
-        console.log(data["payment_intent"]);
         break;
       default:
         console.log(`Unhandled event type: ${event.type}`);
