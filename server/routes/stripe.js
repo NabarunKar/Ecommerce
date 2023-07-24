@@ -8,36 +8,34 @@ require("dotenv").config();
 
 const stripe = Stripe(process.env.STRIPE_KEY);
 
-const bodyParser = require("body-parser");
-
-let endpointSecret;
-endpointSecret =
+const endpointSecret =
   "whsec_d8680c891071c5d18537837d6b457910d2e0d4985744290f41862290bca71893";
 
 router.post(
   "/webhook",
-  bodyParser.raw({ type: "application/json" }),
-  (req, res) => {
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
     const sig = req.headers["stripe-signature"];
 
     let data;
     let eventType;
 
-    if (endpointSecret) {
-      let event;
+    let event;
 
-      try {
-        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-        console.log("event triggered");
-      } catch (err) {
-        res.status(400).send(`Webhook Error: ${err.message}`);
-      }
-      data = event.data.object;
-      eventType = event.type;
-    } else {
-      data = req.body.data.object;
-      eventType = req.body.type;
+    try {
+      event = await stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        endpointSecret
+      );
+      console.log(event.type);
+    } catch (err) {
+      res.status(400).send(`Webhook Error: ${err.message}`);
+      console.log(err.message);
+      return;
     }
+    data = event.data.object;
+    eventType = event.type;
 
     if (eventType === "checkout.session.completed") {
       stripe.customers

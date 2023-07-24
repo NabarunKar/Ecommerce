@@ -30,7 +30,14 @@ const reviewsRoutes = require("./routes/reviews");
 const stripe = require("./routes/stripe");
 
 // Set up middleware
-app.use(express.json());
+app.use((req, res, next) => {
+  // because we need the raw request body in the webhook
+  if (req.originalUrl === "/api/stripe/webhook") {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
 
 // Set up routes
 app.use("/api/users", usersRoutes);
