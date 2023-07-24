@@ -7,6 +7,10 @@ const orderSchema = new mongoose.Schema(
       required: true,
       ref: "User",
     },
+    transactionId: {
+      type: String,
+      required: true,
+    },
     items: [
       {
         productId: {
@@ -27,10 +31,9 @@ const orderSchema = new mongoose.Schema(
         },
       },
     ],
-    totalPrice: {
+    amount: {
       type: Number,
       required: true,
-      default: 0,
     },
   },
   { timestamps: true }

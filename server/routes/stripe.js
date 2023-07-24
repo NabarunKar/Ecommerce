@@ -3,6 +3,7 @@ const Stripe = require("stripe");
 const Product = require("../models/Product");
 const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");
+const Order = require("../models/Order");
 
 require("dotenv").config();
 
@@ -37,10 +38,17 @@ router.post(
       case "payment_intent.succeeded":
         stripe.customers
           .retrieve(data.customer)
-          .then((customer) => {
-            console.log(data.id);
-            console.log(customer["metadata"].userId);
-            console.log(JSON.parse(customer["metadata"].items));
+          .then(async (customer) => {
+
+            // save the order here
+            const order = new Order({
+              userId: customer["metadata"].userId,
+              transactionId: data.id,
+              items: JSON.parse(customer["metadata"].items),
+              amount: data.amount / 100,
+            });
+
+            await order.save();
           })
           .catch((err) => console.log(err.message));
         break;
