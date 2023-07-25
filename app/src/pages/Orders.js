@@ -46,39 +46,43 @@ function Orders() {
               </Container>
             )}
             {data &&
-              data.map((ele) => (
-                <Accordion
-                  elevation={0}
-                  sx={{ border: "1px solid rgba(0,0,0,0.2)", mb: 2 }}
-                >
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
+              data
+                .sort(
+                  (a, b) =>
+                    new Date(b.createdAt).getTime() -
+                    new Date(a.createdAt).getTime()
+                )
+                .map((ele) => (
+                  <Accordion
+                    elevation={0}
+                    sx={{ border: "1px solid rgba(0,0,0,0.2)", mb: 2 }}
                   >
-                    <Typography style={{ flex: 1, textAlign: "start" }}>
-                      <b>₹{ele.amount}</b>
-                    </Typography>
-                    <Typography style={{ flex: 1, textAlign: "end" }}>
-                      {new Date(ele.createdAt).toLocaleDateString("en-GB")}{" "}
-                      {formatAMPM(new Date(ele.createdAt))}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Container>
-                      <Typography fontWeight={800}>
-                        Order Id: {ele._id}
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <Typography style={{ flex: 1, textAlign: "start" }}>
+                        <b>₹{ele.amount}</b>
                       </Typography>
-                      <Typography fontWeight={800}>
-                        Transaction Id: {ele.transactionId}
+                      <Typography style={{ flex: 1, textAlign: "end" }}>
+                        {new Date(ele.createdAt).toLocaleDateString("en-GB")}{" "}
+                        {formatAMPM(new Date(ele.createdAt))}
                       </Typography>
-                    </Container>
-                    <List>
-                      {ele.items.map((item) => (
-                        <ProductItem data={item} />
-                      ))}
-                    </List>
-                  </AccordionDetails>
-                </Accordion>
-              ))}
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Container>
+                        <Typography fontWeight={800}>
+                          Order Id: {ele._id}
+                        </Typography>
+                        <Typography fontWeight={800}>
+                          Transaction Id: {ele.transactionId}
+                        </Typography>
+                      </Container>
+                      <List>
+                        {ele.items.map((item) => (
+                          <ProductItem data={item} />
+                        ))}
+                      </List>
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
           </Grid>
         </Grid>
       </Container>

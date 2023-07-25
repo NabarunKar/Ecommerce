@@ -322,40 +322,49 @@ function Product() {
                     All reviews ({data.reviews.length})
                   </Typography>
                   <Divider />
-                  <Container sx={{ my: 2 }}>
+                  <Container sx={{ my: 5 }}>
                     <Box sx={{ minWidth: 275 }}>
-                      {data.reviews.map((ele) => (
-                        <Card variant="outlined" sx={{ my: 2 }}>
-                          <CardContent>
-                            <Box display="flex" justifyContent="space-between">
-                              <Typography
-                                sx={{ display: "inline-flex" }}
-                                color="text.secondary"
-                                gutterBottom
+                      {data.reviews
+                        .sort(
+                          (a, b) =>
+                            new Date(b.updatedAt).getTime() -
+                            new Date(a.updatedAt).getTime()
+                        )
+                        .map((ele) => (
+                          <Card variant="outlined" sx={{ my: 2 }}>
+                            <CardContent>
+                              <Box
+                                display="flex"
+                                justifyContent="space-between"
                               >
-                                {ele.userName} ({ele.userId})
+                                <Typography
+                                  sx={{ display: "inline-flex" }}
+                                  color="text.secondary"
+                                  gutterBottom
+                                >
+                                  {ele.userName} ({ele.userId})
+                                </Typography>
+                                <Typography
+                                  sx={{ display: "inline" }}
+                                  gutterBottom
+                                >
+                                  {new Date(ele.updatedAt).toLocaleDateString(
+                                    "en-GB"
+                                  )}{" "}
+                                  {formatAMPM(new Date(ele.updatedAt))}
+                                </Typography>
+                              </Box>
+                              <Rating
+                                name="read-only"
+                                value={ele.rating}
+                                readOnly
+                              />
+                              <Typography sx={{ mt: 2, textAlign: "justify" }}>
+                                {ele.text}
                               </Typography>
-                              <Typography
-                                sx={{ display: "inline" }}
-                                gutterBottom
-                              >
-                                {new Date(ele.updatedAt).toLocaleDateString(
-                                  "en-GB"
-                                )}{" "}
-                                {formatAMPM(new Date(ele.updatedAt))}
-                              </Typography>
-                            </Box>
-                            <Rating
-                              name="read-only"
-                              value={ele.rating}
-                              readOnly
-                            />
-                            <Typography sx={{ mt: 2, textAlign: "justify" }}>
-                              {ele.text}
-                            </Typography>
-                          </CardContent>
-                        </Card>
-                      ))}
+                            </CardContent>
+                          </Card>
+                        ))}
                     </Box>
                   </Container>
                 </Container>
