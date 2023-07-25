@@ -129,6 +129,16 @@ const reducer = (state, action) => {
         ...state,
         filter: newCategoryFilter,
       };
+    case "SET_ONE_CATEGORY":
+      let newOneCategoryFilter = state.filter;
+      Object.keys(state.filter.categories).forEach((ele) => {
+        newOneCategoryFilter.categories[ele] = 0;
+      });
+      newOneCategoryFilter.categories[action.payload] = 1;
+      return {
+        ...state,
+        filter: newOneCategoryFilter,
+      };
     case "SET_BRAND_VALUE":
       let newBrandFilter = state.filter;
       newBrandFilter.brands[action.payload.brand] = action.payload.value;
@@ -197,6 +207,12 @@ export const FilterProvider = ({ children }) => {
     dispatch({ type: "APPLY_FILTER" });
   };
 
+  const showByCategory = (value) => {
+    dispatch({ type: "INIT", payload: products || [] });
+    dispatch({ type: "SET_ONE_CATEGORY", payload: value });
+    dispatch({ type: "APPLY_FILTER" });
+  };
+
   useEffect(() => {
     dispatch({ type: "INIT", payload: products || [] });
   }, [products]);
@@ -215,6 +231,7 @@ export const FilterProvider = ({ children }) => {
         setBrandValue,
         toggleAll,
         setPriceRange,
+        showByCategory,
       }}
     >
       {children}

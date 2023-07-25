@@ -24,11 +24,14 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useFilterContext } from "../contexts/FilterContext";
 
 function Product() {
   const { id } = useParams();
 
   const { user } = useAuthContext();
+
+  const { showByCategory } = useFilterContext();
 
   const [data, isPending, error] = UseFetch(`/api/products/${id}`);
 
@@ -130,8 +133,13 @@ function Product() {
                 <Container>
                   <Typography>
                     {data.categories.map((e) => (
-                      <Button sx={{ textTransform: "none" }}>
-                        <Link>#{e.toLowerCase()}</Link>
+                      <Button
+                        sx={{ textTransform: "none" }}
+                        onClick={() => {
+                          showByCategory(e);
+                        }}
+                      >
+                        <Link to="/products">#{e.toLowerCase()}</Link>
                       </Button>
                     ))}
                   </Typography>
