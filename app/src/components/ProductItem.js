@@ -1,7 +1,7 @@
 import React from "react";
 import UseFetch from "../hooks/useFetch";
+import { Link } from "react-router-dom";
 import { Avatar, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
-import ImageIcon from "@mui/icons-material/Image";
 
 function ProductItem(props) {
   const productData = props.data;
@@ -13,7 +13,9 @@ function ProductItem(props) {
       {data && (
         <ListItem>
           <ListItemAvatar>
-            <Avatar src={data.thumbnail}></Avatar>
+            <Link to={`/products/${data._id}`}>
+              <Avatar src={data.thumbnail}></Avatar>
+            </Link>
           </ListItemAvatar>
           <ListItemText
             primary={data.title}
