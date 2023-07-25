@@ -39,15 +39,18 @@ function Orders() {
               elevation={0}
               sx={{ border: "1px solid rgba(0,0,0,0.2)", mb: 2 }}
             >
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>
-                  <b>₹{ele.amount} </b>
+              <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ ml: 2 }} />}>
+                <Typography style={{ flex: 1, textAlign: "start" }}>
+                  <b>₹{ele.amount}</b>
+                </Typography>
+                <Typography style={{ flex: 1, textAlign: "end" }}>
                   {new Date(ele.createdAt).toLocaleDateString("en-GB")}{" "}
                   {formatAMPM(new Date(ele.createdAt))}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Container>
+                  <Typography fontWeight={800}>Order Id: {ele._id}</Typography>
                   <Typography fontWeight={800}>
                     Transaction Id: {ele.transactionId}
                   </Typography>
