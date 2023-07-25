@@ -57,12 +57,9 @@ const deleteReviewByUserId = async (req, res) => {
     // Save the updated product
     await product.save();
 
-    return res.json(product);
+    res.status(200).json(product);
   } catch (err) {
-    // Handle any errors that occur
-    return {
-      message: err.message,
-    };
+    res.status(500).json({ message: err.message });
   }
 };
 
