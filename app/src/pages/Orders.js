@@ -33,7 +33,7 @@ function Orders() {
 
   return (
     <Container>
-      <Container sx={{ mt: 5 }}>
+      <Container sx={{ my: 5 }}>
         <Container sx={{ textAlign: "center", mb: 5 }}>
           <Typography variant="h2">My Orders</Typography>
         </Container>
@@ -52,7 +52,7 @@ function Orders() {
                   sx={{ border: "1px solid rgba(0,0,0,0.2)", mb: 2 }}
                 >
                   <AccordionSummary
-                    expandIcon={<ExpandMoreIcon sx={{ ml: 2 }} />}
+                    expandIcon={<ExpandMoreIcon />}
                   >
                     <Typography style={{ flex: 1, textAlign: "start" }}>
                       <b>₹{ele.amount}</b>
