@@ -7,6 +7,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Container,
+  List,
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -46,7 +47,16 @@ function Orders() {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>{JSON.stringify(ele.items)}</Typography>
+                <Container>
+                  <Typography fontWeight={800}>
+                    Transaction Id: {ele.transactionId}
+                  </Typography>
+                </Container>
+                <List>
+                  {ele.items.map((item) => (
+                    <ProductItem data={item} />
+                  ))}
+                </List>
               </AccordionDetails>
             </Accordion>
           ))}
