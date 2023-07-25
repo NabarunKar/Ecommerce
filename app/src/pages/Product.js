@@ -7,6 +7,7 @@ import ReviewForm from "../components/ReviewForm";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Link } from "react-router-dom";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -72,7 +73,11 @@ function Product() {
     <>
       <Container sx={{ mt: 2 }}>
         <Grid container spacing={{ xs: 2, md: 3 }} justifyContent={"center"}>
-          {error && <div>{error}</div>}
+          {error && (
+            <Container sx={{ mt: 5 }}>
+              <Alert severity="error">{error}</Alert>
+            </Container>
+          )}
           {isPending && (
             <Box sx={{ display: "flex", margin: "auto", mt: 5 }}>
               <CircularProgress />

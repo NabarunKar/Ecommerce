@@ -6,7 +6,10 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Alert,
   Container,
+  Grid,
+  LinearProgress,
   List,
   Typography,
 } from "@mui/material";
@@ -31,38 +34,53 @@ function Orders() {
   return (
     <Container>
       <Container sx={{ mt: 5 }}>
-        {isPending && <>Loading...</>}
-        {error && <>{error}</>}
-        {data &&
-          data.map((ele) => (
-            <Accordion
-              elevation={0}
-              sx={{ border: "1px solid rgba(0,0,0,0.2)", mb: 2 }}
-            >
-              <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ ml: 2 }} />}>
-                <Typography style={{ flex: 1, textAlign: "start" }}>
-                  <b>₹{ele.amount}</b>
-                </Typography>
-                <Typography style={{ flex: 1, textAlign: "end" }}>
-                  {new Date(ele.createdAt).toLocaleDateString("en-GB")}{" "}
-                  {formatAMPM(new Date(ele.createdAt))}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Container>
-                  <Typography fontWeight={800}>Order Id: {ele._id}</Typography>
-                  <Typography fontWeight={800}>
-                    Transaction Id: {ele.transactionId}
-                  </Typography>
-                </Container>
-                <List>
-                  {ele.items.map((item) => (
-                    <ProductItem data={item} />
-                  ))}
-                </List>
-              </AccordionDetails>
-            </Accordion>
-          ))}
+        <Container sx={{ textAlign: "center", mb: 5 }}>
+          <Typography variant="h2">My Orders</Typography>
+        </Container>
+        <Grid container>
+          <Grid item xs={12} sm={10} md={8} sx={{ margin: "auto" }}>
+            {isPending && <LinearProgress />}
+            {error && (
+              <Container sx={{ mt: 5 }}>
+                <Alert severity="error">{error}</Alert>
+              </Container>
+            )}
+            {data &&
+              data.map((ele) => (
+                <Accordion
+                  elevation={0}
+                  sx={{ border: "1px solid rgba(0,0,0,0.2)", mb: 2 }}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon sx={{ ml: 2 }} />}
+                  >
+                    <Typography style={{ flex: 1, textAlign: "start" }}>
+                      <b>₹{ele.amount}</b>
+                    </Typography>
+                    <Typography style={{ flex: 1, textAlign: "end" }}>
+                      {new Date(ele.createdAt).toLocaleDateString("en-GB")}{" "}
+                      {formatAMPM(new Date(ele.createdAt))}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Container>
+                      <Typography fontWeight={800}>
+                        Order Id: {ele._id}
+                      </Typography>
+                      <Typography fontWeight={800}>
+                        Transaction Id: {ele.transactionId}
+                      </Typography>
+                    </Container>
+                    <List>
+                      {ele.items.map((item) => (
+                        <ProductItem data={item} />
+                      ))}
+                    </List>
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+          </Grid>
+        </Grid>
       </Container>
     </Container>
   );
