@@ -5,10 +5,8 @@ import Marquee from "react-fast-marquee";
 import { useProductContext } from "../contexts/ProductContext";
 import {
   Paper,
-  Button,
   Container,
   CardMedia,
-  Grid,
   Typography,
   Card,
   CardContent,
