@@ -8,7 +8,7 @@ export const usePost = (url) => {
     setIsPending(true);
     setError(null);
 
-    const response = await fetch(url, {
+    const response = await fetch(`${process.env.REACT_APP_PROXY}${url}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,5 +1,4 @@
 {
-  "proxy": "https://ecommerce-web-api-3l2w.onrender.com",
   "name": "app",
   "version": "0.1.0",
   "private": true,

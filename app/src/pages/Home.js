@@ -49,7 +49,8 @@ function Home() {
       </Carousel>
       <Container sx={{ my: 5, textAlign: "center" }}>
         <Typography variant="h4">
-          Here's our featured items. Start <Link to="/products">Shopping</Link>
+          Here's our featured items. Start{" "}
+          <Link to="/products">Shopping</Link>
         </Typography>
       </Container>
       {products && (
