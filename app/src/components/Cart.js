@@ -33,29 +33,32 @@ function Cart() {
     incrementQuantity,
     decrementQuantity,
     closeCart,
+    handleCheckout,
+    isCheckoutPending,
+    checkoutError,
   } = useCartContext();
 
   const { user } = useAuthContext();
 
-  const [post, isPending, error] = usePost(
-    "/api/stripe/create-checkout-session"
-  );
+  // const [post, isPending, error] = usePost(
+  //   "/api/stripe/create-checkout-session"
+  // );
 
-  const handleCheckout = async () => {
-    const checkoutData = {
-      userId: user._id,
-      items: cart.map((ele) => {
-        return {
-          productId: ele.productId,
-          color: ele.color,
-          size: ele.size,
-          quantity: ele.quantity,
-        };
-      }),
-    };
+  // const handleCheckout = async () => {
+  //   const checkoutData = {
+  //     userId: user._id,
+  //     items: cart.map((ele) => {
+  //       return {
+  //         productId: ele.productId,
+  //         color: ele.color,
+  //         size: ele.size,
+  //         quantity: ele.quantity,
+  //       };
+  //     }),
+  //   };
 
-    window.location.href = (await post(checkoutData, user.token)).url;
-  };
+  //   window.location.href = (await post(checkoutData, user.token)).url;
+  // };
 
   return (
     <Dialog
@@ -178,13 +181,26 @@ function Cart() {
                       </IconButton>
                     </Grid>
                     <Grid item>
-                      <Button
+                      <LoadingButton
+                        disabled={!user}
                         variant="contained"
                         disableElevation
                         color="secondary"
+                        loading={isCheckoutPending && !checkoutError}
+                        loadingPosition="center"
+                        onClick={() => {
+                          handleCheckout(user._id, user.token, [
+                            {
+                              productId: ele.productId,
+                              color: ele.color,
+                              size: ele.size,
+                              quantity: ele.quantity,
+                            },
+                          ]);
+                        }}
                       >
                         Buy
-                      </Button>
+                      </LoadingButton>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -197,9 +213,20 @@ function Cart() {
         <LoadingButton
           disabled={cart.length === 0 || !user}
           onClick={() => {
-            handleCheckout();
+            handleCheckout(
+              user._id,
+              user.token,
+              cart.map((ele) => {
+                return {
+                  productId: ele.productId,
+                  color: ele.color,
+                  size: ele.size,
+                  quantity: ele.quantity,
+                };
+              })
+            );
           }}
-          loading={isPending && !error}
+          loading={isCheckoutPending && !checkoutError}
           loadingPosition="center"
           variant="text"
         >

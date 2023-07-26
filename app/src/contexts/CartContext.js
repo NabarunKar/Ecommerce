@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
+import { usePost } from "../hooks/usePost";
 
 const CartContext = createContext();
 
@@ -134,6 +135,19 @@ const CartProvider = ({ children }) => {
     console.log(state.open);
   };
 
+  const [post, isCheckoutPending, checkoutError] = usePost(
+    "/api/stripe/create-checkout-session"
+  );
+
+  const handleCheckout = async (userId, token, items) => {
+    const checkoutData = {
+      userId: userId,
+      items: items,
+    };
+
+    window.location.href = (await post(checkoutData, token)).url;
+  };
+
   useEffect(() => {
     dispatch({ type: "SYNC" });
 
@@ -158,6 +172,9 @@ const CartProvider = ({ children }) => {
         decrementQuantity,
         openCart,
         closeCart,
+        handleCheckout,
+        isCheckoutPending,
+        checkoutError,
       }}
     >
       {children}

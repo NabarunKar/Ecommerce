@@ -25,6 +25,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useFilterContext } from "../contexts/FilterContext";
+import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 
 function Product() {
   const { id } = useParams();
@@ -51,7 +52,8 @@ function Product() {
     setOpen(false);
   };
 
-  const { addToCart } = useCartContext();
+  const { addToCart, handleCheckout, isCheckoutPending, checkoutError } =
+    useCartContext();
 
   const decreaseQuantity = () => {
     quantity > 1 ? setQuantity(quantity - 1) : setQuantity(1);
@@ -278,7 +280,7 @@ function Product() {
                   </Container>
                   <Container sx={{ mb: 2 }}>
                     {data.stock > 0 ? (
-                      <Button
+                      <LoadingButton
                         fullWidth
                         disableElevation
                         variant="contained"
@@ -288,9 +290,21 @@ function Product() {
                           (data.colors.length > 0 && !color) ||
                           (data.sizes.length > 0 && !size)
                         }
+                        onClick={() => {
+                          handleCheckout(user._id, user.token, [
+                            {
+                              productId: data._id,
+                              color: color,
+                              size: size,
+                              quantity: quantity,
+                            },
+                          ]);
+                        }}
+                        loading={isCheckoutPending && !checkoutError}
+                        loadingPosition="center"
                       >
                         Buy
-                      </Button>
+                      </LoadingButton>
                     ) : (
                       <h2>Out of stock</h2>
                     )}
