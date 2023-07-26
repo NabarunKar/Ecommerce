@@ -1,9 +1,9 @@
 [[redirects]]
   from = "/*"
-  to = "/"
+  to = "https://ecommerce-web-api-3l2w.onrender.com/:splat" 
   status = 200
 
 [[redirects]]
   from = "/*"
-  to = "https://ecommerce-web-api-3l2w.onrender.com/:splat" 
+  to = "/"
   status = 200
