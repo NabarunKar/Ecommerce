@@ -28,7 +28,7 @@ const ProductProvider = ({ children }) => {
   const getProducts = (url) => {
     dispatch({ type: "LOADING" });
 
-    fetch(`${process.env.REACT_APP_PROXY}${url}`)
+    fetch(url)
       .then((res) => {
         if (!res.ok) {
           // useReducer -> set error

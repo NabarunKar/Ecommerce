@@ -12,7 +12,7 @@ export const useSignup = () => {
     setIsPending(true);
     setError(null);
 
-    const response = await fetch(`${process.env.REACT_APP_PROXY}/api/users/signup`, {
+    const response = await fetch("/api/users/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

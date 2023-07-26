@@ -8,7 +8,7 @@ export const useDelete = (url) => {
     setIsPending(true);
     setError(null);
 
-    const response = await fetch(`${process.env.REACT_APP_PROXY}${url}`, {
+    const response = await fetch(url, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

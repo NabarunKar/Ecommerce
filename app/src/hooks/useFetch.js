@@ -17,7 +17,7 @@ const UseFetch = (url, token = null) => {
       requestOptions.headers["Authorization"] = `Bearer ${token}`;
     }
 
-    fetch(`${process.env.REACT_APP_PROXY}${url}`, requestOptions)
+    fetch(url, requestOptions)
       .then((res) => {
         if (!res.ok) {
           throw Error(`Could not fetch data from ${url}`);
