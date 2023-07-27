@@ -33,7 +33,7 @@ const stripe = require("./routes/stripe");
 // Set up middleware
 app.use((req, res, next) => {
   // because we need the raw request body in the webhook
-  if (req.originalUrl === "/api/stripe/webhook") {
+  if (req.originalUrl === "/stripe/webhook") {
     next();
   } else {
     express.json()(req, res, next);
