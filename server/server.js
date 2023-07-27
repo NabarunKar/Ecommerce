@@ -41,11 +41,11 @@ app.use((req, res, next) => {
 });
 
 // Set up routes
-app.use("/api/users", usersRoutes);
-app.use("/api/products", productsRoutes);
-app.use("/api/reviews", reviewsRoutes);
-app.use("/api/orders", ordersRoutes);
-app.use("/api/stripe", stripe);
+app.use("/users", usersRoutes);
+app.use("/products", productsRoutes);
+app.use("/reviews", reviewsRoutes);
+app.use("/orders", ordersRoutes);
+app.use("/stripe", stripe);
 
 // Start server
 const port = process.env.PORT;
