@@ -287,8 +287,9 @@ function Product() {
                         color="secondary"
                         size="large"
                         disabled={
-                          (data.colors.length > 0 && !color) ||
-                          (data.sizes.length > 0 && !size)
+                          !user &&
+                          ((data.colors.length > 0 && !color) ||
+                            (data.sizes.length > 0 && !size))
                         }
                         onClick={() => {
                           handleCheckout(user._id, user.token, [
